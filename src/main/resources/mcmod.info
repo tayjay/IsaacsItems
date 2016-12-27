@@ -1,0 +1,16 @@
+[
+{
+  "modid": "isaacsitems",
+  "name": "Isaac's Items",
+  "description": "Items in the style of the game The Binding of Isaac",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["tayjay"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
