@@ -1,0 +1,15 @@
+#Creative Tabs
+
+#Items
+item.isaacsitems:redHeartFull.name=Red Heart
+item.isaacsitems:redHeartHalf.name=Half Red Heart
+item.isaacsitems:soulHeart.name=Soul Heart
+item.isaacsitems:penny.name=Penny
+item.isaacsitems:nickle.name=Nickle
+item.isaacsitems:dime.name=Dime
+item.isaacsitems:key.name=Key
+item.isaacsitems:bomb.name=Bomb
+item.isaacsitems:activeNightVision.name=Night-Vision Goggles
+item.isaacsitems:activePocketCreeper.name=Pocket Creeper
+
+#Blocks
