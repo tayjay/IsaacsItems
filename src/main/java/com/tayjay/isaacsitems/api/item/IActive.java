@@ -10,7 +10,7 @@ import net.minecraft.item.ItemStack;
 public interface IActive
 {
 
-    void onPickupActive(ItemStack stack, EntityPlayer player);
+    boolean onPickupActive(ItemStack stack, EntityPlayer player);
     /**
      * Preform effect when item is activated
      * @param stack
@@ -38,4 +38,6 @@ public interface IActive
      * @param stack
      */
     void addCharge(ItemStack stack);
+
+    boolean drainCharge(ItemStack stack);
 }

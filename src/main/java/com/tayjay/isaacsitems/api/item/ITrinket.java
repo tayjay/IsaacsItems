@@ -9,7 +9,7 @@ import net.minecraft.item.ItemStack;
  */
 public interface ITrinket
 {
-    void onPickupTrinket(ItemStack stack, EntityPlayer player);
+    boolean onPickupTrinket(ItemStack stack, EntityPlayer player);
 
     void doTrinketAction(ItemStack stack, EntityPlayer player);
 

@@ -1,7 +1,11 @@
 package com.tayjay.isaacsitems.api.item;
 
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import org.w3c.dom.Attr;
+
+import java.util.ArrayList;
 
 /**
  * Created by tayjay on 2016-12-26.
@@ -33,5 +37,7 @@ public interface IPassive
      * @param player
      */
     void doRandomAction(ItemStack stack, EntityPlayer player);
+
+
 
 }

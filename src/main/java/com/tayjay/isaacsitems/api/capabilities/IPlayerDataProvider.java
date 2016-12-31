@@ -1,5 +1,6 @@
 package com.tayjay.isaacsitems.api.capabilities;
 
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -13,23 +14,6 @@ import java.util.ArrayList;
  */
 public interface IPlayerDataProvider extends INBTSerializable<NBTTagCompound>
 {
-    /**
-     * These may be saved as separate inventories but these methods will get the selected one from each.
-     * @return
-     */
-    ItemStack getActiveItem();
-
-    IItemHandler getActiveInv();
-
-    IItemHandler getPassiveItems();
-
-    ItemStack getUsableItem();
-
-    IItemHandler getUsableInv();
-
-    ItemStack getTrinketItem();
-
-    IItemHandler getTrinketInv();
 
     /**
      * Number of red heart canisters the player can have
@@ -59,7 +43,13 @@ public interface IPlayerDataProvider extends INBTSerializable<NBTTagCompound>
     void addBombs(int bombs);
 
     int getBombs();
+
+
     //**************************
 
+    //Breaking up sync operations to avoid conflicts
     void sync(EntityPlayerMP player);
+
+
+
 }

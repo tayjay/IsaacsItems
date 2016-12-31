@@ -1,7 +1,7 @@
 package com.tayjay.isaacsitems.network;
 
 import com.tayjay.isaacsitems.IsaacsItems;
-import com.tayjay.isaacsitems.network.packets.PacketSyncPlayerData;
+import com.tayjay.isaacsitems.network.packets.*;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.network.simpleimpl.IMessage;
@@ -22,9 +22,13 @@ public class NetworkHandler
     {
         int desc = 0;
         //Server packets
+        INSTANCE.registerMessage(PacketActivateItem.class,PacketActivateItem.class,desc++,Side.SERVER);
+        INSTANCE.registerMessage(PacketOpenGui.class,PacketOpenGui.class,desc++, Side.SERVER);
 
         //Client Packets
         INSTANCE.registerMessage(PacketSyncPlayerData.class,PacketSyncPlayerData.class,desc++, Side.CLIENT);
+        INSTANCE.registerMessage(PacketSyncActiveItem.class,PacketSyncActiveItem.class,desc++,Side.CLIENT);
+        INSTANCE.registerMessage(PacketItemPickup.class,PacketItemPickup.class,desc++,Side.CLIENT);
     }
 
     public static void sendToAll(IMessage msg)

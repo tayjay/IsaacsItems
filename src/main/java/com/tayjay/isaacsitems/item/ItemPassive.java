@@ -1,37 +1,45 @@
 package com.tayjay.isaacsitems.item;
 
 import com.tayjay.isaacsitems.api.item.IPassive;
+import com.tayjay.isaacsitems.api.item.IStatModifier;
 import com.tayjay.isaacsitems.inventory.InventoryPassive;
+import com.tayjay.isaacsitems.util.CapHelper;
+import com.tayjay.isaacsitems.util.ItemHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+
+import java.util.ArrayList;
 
 /**
  * Created by tayjay on 2016-12-27.
  */
-public abstract class ItemPassive extends ItemBase implements IPassive
+public abstract class ItemPassive extends ItemPickup implements IPassive,IStatModifier
 {
-    public ItemPassive(String name)
+    protected ArrayList<AttributeModifier> modifiers;
+    public ItemPassive(String name,String description)
     {
-        super(name);
+        super(name,description);
+        modifiers = new ArrayList<AttributeModifier>();
+        setMaxStackSize(1);
+    }
+
+    @Override
+    public boolean onPickup(ItemStack stack, EntityPlayer player)
+    {
+        return onPickupPassive(stack,player);
     }
 
     @Override
     public boolean onPickupPassive(ItemStack stack, EntityPlayer player)
     {
-        return true;
+        return ItemHelper.tryAddItemToItemHandlerPlayer(stack, CapHelper.getPlayerItemsCap(player).getPassiveItems(),player,false);
     }
 
-    private boolean canPickupItem(ItemStack stack, EntityPlayer player, InventoryPassive inv)
+    @Override
+    public ArrayList<AttributeModifier> getStatModifiers(ItemStack stack)
     {
-        for(int i = 0 ; i<inv.getSlots();i++)
-        {
-            if(inv.insertItem(i,stack,true)==null)//Go through all items and see if it is adding to an empty slot.(Added and returns remaining null
-            {
-                inv.insertItem(i, stack, false);
-                return true;//Item was added successfully
-            }
-        }
-        return false;//Has gone through the whole inventory and not inserted item. Cannot be added.
+        return modifiers;
     }
 }

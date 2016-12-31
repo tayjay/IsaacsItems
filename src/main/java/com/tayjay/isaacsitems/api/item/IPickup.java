@@ -10,4 +10,6 @@ import net.minecraft.item.ItemStack;
 public interface IPickup
 {
     boolean onPickup(ItemStack stack, EntityPlayer player);
+
+    String getDescription();
 }

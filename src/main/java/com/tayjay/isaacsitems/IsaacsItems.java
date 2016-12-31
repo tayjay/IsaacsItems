@@ -1,7 +1,10 @@
 package com.tayjay.isaacsitems;
 
+import com.tayjay.isaacsitems.capability.ActiveDataImpl;
 import com.tayjay.isaacsitems.capability.PlayerDataImpl;
+import com.tayjay.isaacsitems.capability.PlayerItemsImpl;
 import com.tayjay.isaacsitems.event.IsaacEventHandler;
+import com.tayjay.isaacsitems.handler.GuiHandler;
 import com.tayjay.isaacsitems.init.ModBlocks;
 import com.tayjay.isaacsitems.init.ModItems;
 import com.tayjay.isaacsitems.proxy.CommonProxy;
@@ -11,6 +14,7 @@ import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
 
 import static com.tayjay.isaacsitems.IsaacsItems.modId;
 
@@ -39,12 +43,17 @@ public class IsaacsItems
         ModBlocks.init();
         ModItems.init();
         PlayerDataImpl.init();
+        PlayerItemsImpl.init();
+        ActiveDataImpl.init();
+        proxy.preInit();
     }
 
     @Mod.EventHandler
     public void init(FMLInitializationEvent event)
     {
         MinecraftForge.EVENT_BUS.register(new IsaacEventHandler());
+        NetworkRegistry.INSTANCE.registerGuiHandler(instance,new GuiHandler());
+        proxy.init();
     }
 
     @Mod.EventHandler

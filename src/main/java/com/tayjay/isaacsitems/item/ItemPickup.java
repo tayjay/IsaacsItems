@@ -7,16 +7,19 @@ import net.minecraft.item.ItemStack;
 /**
  * Created by tayjay on 2016-12-27.
  */
-public class ItemPickup extends ItemBase implements IPickup
+public abstract class ItemPickup extends ItemBase implements IPickup
 {
-    public ItemPickup(String name)
+    protected String description;
+    public ItemPickup(String name,String description)
     {
         super(name);
+        this.description = description;
+        setMaxStackSize(2);
     }
 
     @Override
-    public boolean onPickup(ItemStack stack, EntityPlayer player)
+    public String getDescription()
     {
-        return false;
+        return description;
     }
 }

@@ -18,7 +18,7 @@ public abstract class ItemHeart extends ItemPickup implements IHeart
 {
     public ItemHeart(String name)
     {
-        super(name);
+        super(name,"Good for what ails you.");
         setMaxStackSize(2);
     }
 

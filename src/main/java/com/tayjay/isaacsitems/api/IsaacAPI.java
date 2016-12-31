@@ -1,6 +1,8 @@
 package com.tayjay.isaacsitems.api;
 
+import com.tayjay.isaacsitems.api.capabilities.IActiveDataProvider;
 import com.tayjay.isaacsitems.api.capabilities.IPlayerDataProvider;
+import com.tayjay.isaacsitems.api.capabilities.IPlayerItemsProvider;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 
@@ -18,4 +20,12 @@ public class IsaacAPI
      */
     @CapabilityInject(IPlayerDataProvider.class)
     public static final Capability<IPlayerDataProvider> PLAYER_DATA_CAPABILITY = null;
+
+    @CapabilityInject(IPlayerItemsProvider.class)
+    public static final Capability<IPlayerItemsProvider> PLAYER_ITEM_PROVIDER = null;
+
+    @CapabilityInject(IActiveDataProvider.class)
+    public static final Capability<IActiveDataProvider> ACTIVE_DATA_CAPABILITY = null;
+
+
 }

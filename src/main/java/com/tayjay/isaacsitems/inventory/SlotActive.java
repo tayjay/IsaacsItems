@@ -1,7 +1,9 @@
 package com.tayjay.isaacsitems.inventory;
 
 import com.tayjay.isaacsitems.api.item.IActive;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.SlotItemHandler;
 
@@ -19,5 +21,18 @@ public class SlotActive extends SlotItemHandler
     public boolean isItemValid(ItemStack stack)
     {
         return stack.getItem() instanceof IActive;
+    }
+
+    @Override
+    public boolean canTakeStack(EntityPlayer playerIn)
+    {
+        return playerIn.isCreative();
+    }
+
+    @Override
+    public void onPickupFromSlot(EntityPlayer playerIn, ItemStack stack)
+    {
+        super.onPickupFromSlot(playerIn, stack);
+        playerIn.addChatMessage(new TextComponentString("Picking up "+ stack.getDisplayName()));
     }
 }
