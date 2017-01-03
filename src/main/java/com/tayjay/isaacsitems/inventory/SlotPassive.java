@@ -25,6 +25,7 @@ public class SlotPassive extends SlotItemHandler
     @Override
     public boolean canTakeStack(EntityPlayer playerIn)
     {
-        return playerIn.isCreative();
+        return true;
+        //return playerIn.isCreative();
     }
 }

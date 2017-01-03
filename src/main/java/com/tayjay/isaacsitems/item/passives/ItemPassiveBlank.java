@@ -50,6 +50,9 @@ public class ItemPassiveBlank extends ItemPassive
     @Override
     public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
     {
+        System.out.println(playerIn.getEntityAttribute(SharedMonsterAttributes.LUCK).getBaseValue());
+        System.out.println(playerIn.getEntityAttribute(SharedMonsterAttributes.LUCK).getAttributeValue());
+
         return super.onItemRightClick(itemStackIn, worldIn, playerIn, hand);
     }
 }

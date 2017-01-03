@@ -11,5 +11,12 @@ item.isaacsitems:key.name=Key
 item.isaacsitems:bomb.name=Bomb
 item.isaacsitems:activeNightVision.name=Night-Vision Goggles
 item.isaacsitems:activePocketCreeper.name=Pocket Creeper
+item.isaacsitems:passiveBlank.name=Blank Passive
+item.isaacsitems:passiveCure.name=The Cure
+item.isaacsitems:passiveFastHands.name=Fast Hands
+item.isaacsitems:passiveFlight.name=Angel Wings
+item.isaacsitems:passiveMobPacifier.name=Mob Pacifier
+item.isaacsitems:trinketBlank.name=Blank Trinket
+item.isaacsitems:trinketLuckyFoot.name=Lucky Foot
 
 #Blocks

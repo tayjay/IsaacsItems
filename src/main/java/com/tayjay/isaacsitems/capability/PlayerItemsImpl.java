@@ -1,15 +1,13 @@
 package com.tayjay.isaacsitems.capability;
 
 import com.tayjay.isaacsitems.api.IsaacAPI;
-import com.tayjay.isaacsitems.api.capabilities.IActiveDataProvider;
-import com.tayjay.isaacsitems.api.capabilities.IPlayerDataProvider;
 import com.tayjay.isaacsitems.api.capabilities.IPlayerItemsProvider;
+import com.tayjay.isaacsitems.api.item.IActive;
 import com.tayjay.isaacsitems.api.item.IPassive;
-import com.tayjay.isaacsitems.api.item.IPickup;
 import com.tayjay.isaacsitems.api.item.IStatModifier;
+import com.tayjay.isaacsitems.api.item.ITrinket;
 import com.tayjay.isaacsitems.network.NetworkHandler;
 import com.tayjay.isaacsitems.network.packets.PacketSyncActiveItem;
-import com.tayjay.isaacsitems.util.CapHelper;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -136,15 +134,35 @@ public class PlayerItemsImpl
         }
 
         @Override
-        public void syncActiveItem(EntityPlayerMP player)
+        public void syncAllItems(EntityPlayerMP player)
         {
             NetworkHandler.sendTo(new PacketSyncActiveItem(player.getEntityId(), writeNBT()), player);
         }
 
         @Override
-        public void syncPassiveItems(EntityPlayerMP player)
+        public void tickAllItems(EntityPlayerMP player)
         {
-            //todo: Make packet and continue on this
+            for(int i = 0;i<passiveItems.getSlots();i++)
+            {
+                if (passiveItems.getStackInSlot(i) != null && passiveItems.getStackInSlot(i).getItem() instanceof IPassive)
+                {
+                    ((IPassive) passiveItems.getStackInSlot(i).getItem()).doTickAction(passiveItems.getStackInSlot(i),player);
+                }
+            }
+
+            for(int j = 0;j<trinketInv.getSlots();j++)
+            {
+                if(trinketInv.getStackInSlot(j)!=null && trinketInv.getStackInSlot(j).getItem() instanceof ITrinket)
+                    ((ITrinket) trinketInv.getStackInSlot(j).getItem()).tickTrinket(trinketInv.getStackInSlot(j),player);
+            }
+
+            for(int k = 0;k<activeInv.getSlots();k++)
+            {
+                if (activeInv.getStackInSlot(k) != null && activeInv.getStackInSlot(k).getItem() instanceof IActive)
+                {
+                    ((IActive) activeInv.getStackInSlot(k).getItem()).tickActive(activeInv.getStackInSlot(k), player);
+                }
+            }
         }
 
         public NBTTagCompound writeNBT()

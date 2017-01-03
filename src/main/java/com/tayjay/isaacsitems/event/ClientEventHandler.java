@@ -5,6 +5,7 @@ import com.tayjay.isaacsitems.api.capabilities.IActiveDataProvider;
 import com.tayjay.isaacsitems.api.capabilities.IPlayerDataProvider;
 import com.tayjay.isaacsitems.api.capabilities.IPlayerItemsProvider;
 import com.tayjay.isaacsitems.api.item.IActive;
+import com.tayjay.isaacsitems.api.item.ITrinket;
 import com.tayjay.isaacsitems.init.ModItems;
 import com.tayjay.isaacsitems.util.CapHelper;
 import net.minecraft.client.Minecraft;
@@ -116,6 +117,15 @@ public class ClientEventHandler
                 mc.getRenderItem().renderItemIntoGUI(playerItems.getActiveItem(), 5, 5);
                 GL11.glPopMatrix();
             }
+        }
+
+        //ITrinket trinket = (ITrinket) playerItems.getTrinketItem().getItem();
+        if (playerItems.getTrinketItem()!=null)
+        {
+            GlStateManager.pushMatrix();
+            GlStateManager.scale(1.5,1.5,1.5);
+            mc.getRenderItem().renderItemIntoGUI(playerItems.getTrinketItem(), 5, (int)Math.floor(200.0/1.5));
+            GlStateManager.popMatrix();
         }
 
 

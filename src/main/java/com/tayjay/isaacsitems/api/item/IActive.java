@@ -1,5 +1,6 @@
 package com.tayjay.isaacsitems.api.item;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
@@ -17,6 +18,8 @@ public interface IActive
      * @param player
      */
     void onActivate(ItemStack stack, EntityPlayer player);
+
+    void tickActive(ItemStack stack, EntityPlayer player);
 
     /**
      * How many charges does it take to activate the item.

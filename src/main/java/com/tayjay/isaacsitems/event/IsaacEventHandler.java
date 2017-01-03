@@ -1,13 +1,11 @@
 package com.tayjay.isaacsitems.event;
 
-import com.tayjay.isaacsitems.IsaacsItems;
-import com.tayjay.isaacsitems.api.IsaacAPI;
 import com.tayjay.isaacsitems.api.capabilities.IPlayerDataProvider;
 import com.tayjay.isaacsitems.api.item.*;
-import com.tayjay.isaacsitems.capability.ActiveDataImpl;
 import com.tayjay.isaacsitems.capability.PlayerDataImpl;
 import com.tayjay.isaacsitems.capability.PlayerItemsImpl;
 import com.tayjay.isaacsitems.lib.Buffs;
+import com.tayjay.isaacsitems.lib.FlightControl;
 import com.tayjay.isaacsitems.network.NetworkHandler;
 import com.tayjay.isaacsitems.network.packets.PacketItemPickup;
 import com.tayjay.isaacsitems.util.CapHelper;
@@ -15,8 +13,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
@@ -25,11 +21,15 @@ import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
 
+import java.util.ArrayList;
+
 /**
  * Created by tayjay on 2016-12-26.
  */
 public class IsaacEventHandler
 {
+
+
     @SubscribeEvent
     public void attachPlayerCapabilities(AttachCapabilitiesEvent<Entity> event)
     {
@@ -83,21 +83,32 @@ public class IsaacEventHandler
         if(event.player.worldObj.isRemote)
             return;
 
-        if (event.player.worldObj.getTotalWorldTime() % 20 == 0)
+        if (event.player.worldObj.getTotalWorldTime() % 5 == 0)
         {
             CapHelper.getPlayerDataCap(event.player).sync((EntityPlayerMP) event.player);
-            CapHelper.getPlayerItemsCap(event.player).syncActiveItem((EntityPlayerMP) event.player);
         }
-        if (CapHelper.getPlayerItemsCap(event.player).getActiveItem()!=null && event.player.worldObj.getTotalWorldTime() % 60 == 0)
+        if (event.player.worldObj.getTotalWorldTime() % 10 == 0)
+        {
+            CapHelper.getPlayerItemsCap(event.player).syncAllItems((EntityPlayerMP) event.player);
+        }
+        /*if (CapHelper.getPlayerItemsCap(event.player).getActiveItem()!=null && event.player.worldObj.getTotalWorldTime() % 60 == 0)
         {
             ((IActive) CapHelper.getPlayerItemsCap(event.player).getActiveItem().getItem()).addCharge(CapHelper.getPlayerItemsCap(event.player).getActiveItem());
-        }
+        }*/
 
         //Remove old Attribute Modifiers
         if (event.player.worldObj.getTotalWorldTime() % 15 == 0)
         {
             Buffs.confirmPlayerBuffs(event.player);
+            FlightControl.refreshFlight(event.player);
         }
+
+        CapHelper.getPlayerItemsCap(event.player).tickAllItems((EntityPlayerMP) event.player);
+
+    }
+
+    public void playerRespawn(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent event)
+    {
 
     }
 

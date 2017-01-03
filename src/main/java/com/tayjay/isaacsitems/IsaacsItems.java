@@ -9,6 +9,7 @@ import com.tayjay.isaacsitems.init.ModBlocks;
 import com.tayjay.isaacsitems.init.ModItems;
 import com.tayjay.isaacsitems.proxy.CommonProxy;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -35,17 +36,28 @@ public class IsaacsItems
     @SidedProxy(serverSide = "com.tayjay.isaacsitems.proxy.CommonProxy",clientSide = "com.tayjay.isaacsitems.proxy.ClientProxy")
     public static CommonProxy proxy;
 
+    public static String[] blacklistItems;
+
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         System.out.println("Loading Isaac's Items!");
+        initConfig(event);
         ModBlocks.init();
         ModItems.init();
         PlayerDataImpl.init();
         PlayerItemsImpl.init();
         ActiveDataImpl.init();
         proxy.preInit();
+    }
+
+    public void initConfig(FMLPreInitializationEvent event)
+    {
+        Configuration config = new Configuration(event.getSuggestedConfigurationFile());
+        config.load();
+        blacklistItems = config.getStringList("blacklistItems",Configuration.CATEGORY_GENERAL,new String[]{"example","items"},"Items to be blacklist from use in the game.");
+        config.save();
     }
 
     @Mod.EventHandler

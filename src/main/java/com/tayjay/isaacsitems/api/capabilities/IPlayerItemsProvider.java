@@ -37,7 +37,7 @@ public interface IPlayerItemsProvider extends INBTSerializable<NBTTagCompound>
      */
     ArrayList<AttributeModifier> getActiveAttributeModifiers();
 
-    void syncActiveItem(EntityPlayerMP player);
+    void syncAllItems(EntityPlayerMP player);
 
-    void syncPassiveItems(EntityPlayerMP player);
+    void tickAllItems(EntityPlayerMP player);
 }
