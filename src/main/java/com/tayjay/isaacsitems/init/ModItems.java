@@ -3,12 +3,15 @@ package com.tayjay.isaacsitems.init;
 import com.tayjay.isaacsitems.IsaacsItems;
 import com.tayjay.isaacsitems.item.*;
 import com.tayjay.isaacsitems.item.actives.ItemActiveDropPotion;
-import com.tayjay.isaacsitems.item.actives.ItemNightVision;
-import com.tayjay.isaacsitems.item.actives.ItemPocketCreeper;
+import com.tayjay.isaacsitems.item.actives.ItemActiveNightVision;
+import com.tayjay.isaacsitems.item.actives.ItemActivePocketCreeper;
+import com.tayjay.isaacsitems.item.actives.ItemActivePushUp;
 import com.tayjay.isaacsitems.item.passives.*;
 import com.tayjay.isaacsitems.item.pickups.*;
+import com.tayjay.isaacsitems.item.trinkets.ItemTrinketBattery;
 import com.tayjay.isaacsitems.item.trinkets.ItemTrinketBlank;
 import com.tayjay.isaacsitems.item.trinkets.ItemTrinketLuck;
+import com.tayjay.isaacsitems.item.trinkets.ItemTrinketXPGen;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -32,15 +35,20 @@ public class ModItems
     public static ItemActive activeNightVision;
     public static ItemActive activePocketCreeper;
     public static ItemActive activeDropPotion;
+    public static ItemActive activePushUp;
 
     public static ItemPassive passiveBlank;
     public static ItemPassive passiveFlight;
     public static ItemPassive passiveMobPacifier;
     public static ItemPassive passiveFastHands;
     public static ItemPassive passiveCure;
+    public static ItemPassive passivePoisonHurt;
+    public static ItemPassive passiveHungerCure;
 
     public static ItemTrinket trinketBlank;
     public static ItemTrinket trinketLuckyFoot;
+    public static ItemTrinket trinketXPGen;
+    public static ItemTrinket trinketBattery;
 
     //Initialize items in here
     public static void init()
@@ -56,20 +64,24 @@ public class ModItems
         key = register(new ItemKey("key"));
         bomb = register(new ItemBomb("bomb"));
 
-        activeNightVision = register(new ItemNightVision("activeNightVision","See in the dark.",3));
-        activePocketCreeper = register(new ItemPocketCreeper("activePocketCreeper","Little Boom.", 10));
+        activeNightVision = register(new ItemActiveNightVision("activeNightVision","See in the dark.",3));
+        activePocketCreeper = register(new ItemActivePocketCreeper("activePocketCreeper","Little Boom.", 10));
         activeDropPotion = register(new ItemActiveDropPotion("activeDropPotion","Drops a potion around you",2));
+        activePushUp = register(new ItemActivePushUp("activePushUp","I raise you up.",3));
 
         passiveBlank = register(new ItemPassiveBlank("passiveBlank","It does nothing."));
         passiveFlight = register(new ItemPassiveFlight("passiveFlight","I believe I can fly!"));
         passiveMobPacifier = register(new ItemPassiveMobPacifier("passiveMobPacifier","Getting the cold shoulder."));
-        passiveFastHands = register(new ItemPassiveFastHands("passiveFastHands", "Do everything faster."));
+        passiveFastHands = register(new ItemPassiveFastHands("passiveFastHands", "Quick draw."));
         passiveCure = register(new ItemPassiveCure("passiveCure","For what ails you."));
-
-
+        passivePoisonHurt = register(new ItemPassivePoisonHurt("passivePoisonHurt","Right back at ya."));
+        passiveHungerCure = register(new ItemPassiveHungerCure("passiveHungerCure","Mmm, Zombie Flesh."));
 
         trinketBlank = register(new ItemTrinketBlank("trinketBlank","Hold it, it won't bite. Or do anything."));
         trinketLuckyFoot = register(new ItemTrinketLuck("trinketLuckyFoot","+4 Luck!!!",4));
+        trinketXPGen = register(new ItemTrinketXPGen("trinketXPGen","Gives Levels."));
+        trinketBattery = register(new ItemTrinketBattery("trinketBattery","It's gonna charge you."));
+
     }
 
     //Register item with game and give it an item model

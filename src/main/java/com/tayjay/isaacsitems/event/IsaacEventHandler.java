@@ -13,15 +13,16 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
+import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.eventhandler.Event;
+import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
-
-import java.util.ArrayList;
 
 /**
  * Created by tayjay on 2016-12-26.
@@ -80,14 +81,17 @@ public class IsaacEventHandler
     @SubscribeEvent
     public void syncCapabilties(TickEvent.PlayerTickEvent event)
     {
-        if(event.player.worldObj.isRemote)
+
+        if(event.player.worldObj.isRemote|| event.phase== TickEvent.Phase.START)
             return;
+
+
 
         if (event.player.worldObj.getTotalWorldTime() % 5 == 0)
         {
             CapHelper.getPlayerDataCap(event.player).sync((EntityPlayerMP) event.player);
         }
-        if (event.player.worldObj.getTotalWorldTime() % 10 == 0)
+        if (event.player.worldObj.getTotalWorldTime() % 5 == 0)
         {
             CapHelper.getPlayerItemsCap(event.player).syncAllItems((EntityPlayerMP) event.player);
         }
@@ -96,14 +100,26 @@ public class IsaacEventHandler
             ((IActive) CapHelper.getPlayerItemsCap(event.player).getActiveItem().getItem()).addCharge(CapHelper.getPlayerItemsCap(event.player).getActiveItem());
         }*/
 
-        //Remove old Attribute Modifiers
+    }
+
+    @SubscribeEvent
+    public void handlePlayerTicks(TickEvent.PlayerTickEvent event)
+    {
+        if(event.player.worldObj.isRemote || event.phase== TickEvent.Phase.END)
+        {
+            //System.out.println(((EntityPlayerMP) event.player).isDead);
+            return;
+        }
         if (event.player.worldObj.getTotalWorldTime() % 15 == 0)
         {
             Buffs.confirmPlayerBuffs(event.player);
             FlightControl.refreshFlight(event.player);
         }
+        Buffs.tickTimedBuffs();
 
         CapHelper.getPlayerItemsCap(event.player).tickAllItems((EntityPlayerMP) event.player);
+
+
 
     }
 
@@ -136,6 +152,32 @@ public class IsaacEventHandler
             }
             else
                 event.setCanceled(true);
+        }
+    }
+
+    @SubscribeEvent
+    public void doHurtItemEffects(LivingHurtEvent event)
+    {
+        if(event.getEntityLiving().worldObj.isRemote)
+            return;
+        if (event.getEntityLiving() instanceof EntityPlayerMP)
+        {
+            CapHelper.getPlayerItemsCap((EntityPlayer) event.getEntityLiving()).activateHurtItems(event);
+        }
+    }
+
+    @SubscribeEvent(priority = EventPriority.HIGHEST)
+    public void onPlayerDeath(LivingDeathEvent event)
+    {
+        if (event.getEntityLiving() instanceof EntityPlayer)
+        {
+            if (event.getEntityLiving().getMaxHealth() == 0)
+            {
+                if(event.getEntityLiving().getAbsorptionAmount()>0)
+                {
+                    event.setCanceled(true);//Player Shouldnt die if they have not red health, but do have absorption.
+                }
+            }
         }
     }
 

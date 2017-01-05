@@ -19,11 +19,12 @@ public class ItemSoulHeart extends ItemHeart
     @Override
     public boolean onPickupHeart(ItemStack heartStack, EntityPlayer entityPlayer)
     {
-        IPlayerDataProvider data = CapHelper.getPlayerDataCap(entityPlayer);
+        /*IPlayerDataProvider data = CapHelper.getPlayerDataCap(entityPlayer);
         if(data.getSoulHearts()<20)
             data.changeSoulHearts(2*heartStack.stackSize);
         else
-            data.changeSoulHearts(-1*data.getSoulHearts());
+            data.changeSoulHearts(-1*data.getSoulHearts());*/
+        entityPlayer.setAbsorptionAmount(entityPlayer.getAbsorptionAmount()+2*heartStack.stackSize);
         return true;
     }
 

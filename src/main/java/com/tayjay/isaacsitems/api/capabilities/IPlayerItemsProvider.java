@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.common.util.INBTSerializable;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;
@@ -40,4 +41,11 @@ public interface IPlayerItemsProvider extends INBTSerializable<NBTTagCompound>
     void syncAllItems(EntityPlayerMP player);
 
     void tickAllItems(EntityPlayerMP player);
+
+    /**
+     * Run all IHurtItem items on the player.
+     * @return
+     * @param event
+     */
+    void activateHurtItems(LivingHurtEvent event);
 }

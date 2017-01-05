@@ -14,9 +14,9 @@ import org.lwjgl.Sys;
 /**
  * Created by tayjay on 2016-12-27.
  */
-public class ItemPocketCreeper extends ItemActive
+public class ItemActivePocketCreeper extends ItemActive
 {
-    public ItemPocketCreeper(String name,String description, int charges)
+    public ItemActivePocketCreeper(String name, String description, int charges)
     {
         super(name,description, charges);
     }

@@ -86,14 +86,14 @@ public abstract class ItemActive extends ItemPickup implements IActive
     @Override
     public void tickActive(ItemStack stack, EntityPlayer player)
     {
-        if (player.worldObj.isRemote)
+        /*if (player.worldObj.isRemote)
         {
             return;
         }
         if (player.worldObj.getTotalWorldTime() % 40 == 0)
         {
             this.addCharge(stack);
-        }
+        }*/
     }
 
     @Override

@@ -8,6 +8,8 @@ import com.tayjay.isaacsitems.handler.GuiHandler;
 import com.tayjay.isaacsitems.init.ModBlocks;
 import com.tayjay.isaacsitems.init.ModItems;
 import com.tayjay.isaacsitems.proxy.CommonProxy;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.fml.common.Mod;
@@ -30,6 +32,8 @@ public class IsaacsItems
     public static final String version = "0.0.0.1";
     public static final String guiFactory = "com.tayjay.isaacsitems.client.GuiFactory";
 
+    public static CreativeTabs isaacsItemsTab;
+
     @Mod.Instance(modId)
     public static IsaacsItems instance;
 
@@ -44,12 +48,23 @@ public class IsaacsItems
     {
         System.out.println("Loading Isaac's Items!");
         initConfig(event);
+
+        isaacsItemsTab = new CreativeTabs("isaacs_items")
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return ModItems.passiveFlight;
+            }
+        };
+
         ModBlocks.init();
         ModItems.init();
         PlayerDataImpl.init();
         PlayerItemsImpl.init();
         ActiveDataImpl.init();
         proxy.preInit();
+
     }
 
     public void initConfig(FMLPreInitializationEvent event)

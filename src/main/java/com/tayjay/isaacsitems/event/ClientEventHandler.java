@@ -124,7 +124,7 @@ public class ClientEventHandler
         {
             GlStateManager.pushMatrix();
             GlStateManager.scale(1.5,1.5,1.5);
-            mc.getRenderItem().renderItemIntoGUI(playerItems.getTrinketItem(), 5, (int)Math.floor(200.0/1.5));
+            mc.getRenderItem().renderItemIntoGUI(playerItems.getTrinketItem(), 5, (int)Math.floor(214.0/1.5));
             GlStateManager.popMatrix();
         }
 

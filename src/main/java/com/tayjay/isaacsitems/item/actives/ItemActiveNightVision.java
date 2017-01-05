@@ -11,10 +11,10 @@ import net.minecraft.potion.PotionEffect;
 /**
  * Created by tayjay on 2016-12-27.
  */
-public class ItemNightVision extends ItemActive
+public class ItemActiveNightVision extends ItemActive
 {
     private final PotionEffect nightVisionEffect = new PotionEffect(Potion.getPotionById(16),1200,0);
-    public ItemNightVision(String name,String description, int charges)
+    public ItemActiveNightVision(String name, String description, int charges)
     {
         super(name,description, charges);
     }

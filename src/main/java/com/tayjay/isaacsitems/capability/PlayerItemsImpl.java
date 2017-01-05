@@ -2,6 +2,7 @@ package com.tayjay.isaacsitems.capability;
 
 import com.tayjay.isaacsitems.api.IsaacAPI;
 import com.tayjay.isaacsitems.api.capabilities.IPlayerItemsProvider;
+import com.tayjay.isaacsitems.api.events.IHurtItem;
 import com.tayjay.isaacsitems.api.item.IActive;
 import com.tayjay.isaacsitems.api.item.IPassive;
 import com.tayjay.isaacsitems.api.item.IStatModifier;
@@ -19,6 +20,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -161,6 +163,32 @@ public class PlayerItemsImpl
                 if (activeInv.getStackInSlot(k) != null && activeInv.getStackInSlot(k).getItem() instanceof IActive)
                 {
                     ((IActive) activeInv.getStackInSlot(k).getItem()).tickActive(activeInv.getStackInSlot(k), player);
+                }
+            }
+        }
+
+        @Override
+        public void activateHurtItems(LivingHurtEvent event)
+        {
+            for(int i = 0;i<passiveItems.getSlots();i++)
+            {
+                if (passiveItems.getStackInSlot(i) != null && passiveItems.getStackInSlot(i).getItem() instanceof IHurtItem)
+                {
+                    ((IHurtItem) passiveItems.getStackInSlot(i).getItem()).onHurtEvent(event);
+                }
+            }
+
+            for(int j = 0;j<trinketInv.getSlots();j++)
+            {
+                if(trinketInv.getStackInSlot(j)!=null && trinketInv.getStackInSlot(j).getItem() instanceof IHurtItem)
+                    ((IHurtItem) trinketInv.getStackInSlot(j).getItem()).onHurtEvent(event);
+            }
+
+            for(int k = 0;k<activeInv.getSlots();k++)
+            {
+                if (activeInv.getStackInSlot(k) != null && activeInv.getStackInSlot(k).getItem() instanceof IHurtItem)
+                {
+                    ((IHurtItem) activeInv.getStackInSlot(k).getItem()).onHurtEvent(event);
                 }
             }
         }

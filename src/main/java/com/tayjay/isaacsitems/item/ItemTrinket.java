@@ -21,6 +21,7 @@ public class ItemTrinket extends ItemPickup implements ITrinket,IStatModifier
     {
         super(name,description);
         modifiers = new ArrayList<AttributeModifier>();
+        setMaxStackSize(1);
     }
 
     @Override

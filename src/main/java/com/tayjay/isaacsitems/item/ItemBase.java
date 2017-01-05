@@ -18,7 +18,7 @@ public class ItemBase extends Item implements IItemModelProvider
         this.name = name;
         setUnlocalizedName(name);
         setRegistryName(name);
-        setCreativeTab(CreativeTabs.MISC);
+        setCreativeTab(IsaacsItems.isaacsItemsTab);
     }
 
     @Override

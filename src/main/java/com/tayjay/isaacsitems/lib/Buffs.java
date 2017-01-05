@@ -35,6 +35,7 @@ ee72d199-944a-4853-97a4-b16f59f68045
      */
     private static final Random rand = new Random(27);
     private static HashMap<AttributeModifier,IAttribute> buffMap = new HashMap<AttributeModifier, IAttribute>();
+    private static ArrayList<TimedAttributeModifier> timedBuffs = new ArrayList<TimedAttributeModifier>();
 
     /*public static final UUID EXTRA_HEART_ID = MathHelper.getRandomUuid(rand);
     public static final UUID DAMAGE_UP_ID = MathHelper.getRandomUuid(rand);
@@ -48,6 +49,24 @@ ee72d199-944a-4853-97a4-b16f59f68045
     {
         buffMap.put(mod,attribute);
         return mod;
+    }
+
+    public static TimedAttributeModifier addTimedBuff(AttributeModifier mod, IAttribute attribute, int duration, EntityPlayer player)
+    {
+        TimedAttributeModifier timedAttributeModifier = new TimedAttributeModifier(mod, attribute, duration, player);
+        timedBuffs.add(timedAttributeModifier);
+        return timedAttributeModifier;
+    }
+
+    public static void tickTimedBuffs()
+    {
+        for (Object mod : timedBuffs.toArray())
+        {
+            TimedAttributeModifier timedMod =  (TimedAttributeModifier)mod;
+            timedMod.tickAttribute();
+            if(timedMod.ticksRemaining<0)
+                timedBuffs.remove(timedMod);
+        }
     }
 
     public static void applyAttributeModifier(EntityPlayer player, AttributeModifier modifier)
