@@ -22,13 +22,14 @@ public class NetworkHandler
     {
         int desc = 0;
         //Server packets
-        INSTANCE.registerMessage(PacketActivateItem.class,PacketActivateItem.class,desc++,Side.SERVER);
-        INSTANCE.registerMessage(PacketOpenGui.class,PacketOpenGui.class,desc++, Side.SERVER);
+        INSTANCE.registerMessage(PacketActivateItem.class, PacketActivateItem.class, desc++, Side.SERVER);
+        INSTANCE.registerMessage(PacketOpenGui.class, PacketOpenGui.class, desc++, Side.SERVER);
 
         //Client Packets
-        INSTANCE.registerMessage(PacketSyncPlayerData.class,PacketSyncPlayerData.class,desc++, Side.CLIENT);
-        INSTANCE.registerMessage(PacketSyncActiveItem.class,PacketSyncActiveItem.class,desc++,Side.CLIENT);
-        INSTANCE.registerMessage(PacketItemPickup.class,PacketItemPickup.class,desc++,Side.CLIENT);
+        INSTANCE.registerMessage(PacketSyncPlayerData.class, PacketSyncPlayerData.class, desc++, Side.CLIENT);
+        INSTANCE.registerMessage(PacketSyncActiveItem.class, PacketSyncActiveItem.class, desc++, Side.CLIENT);
+        INSTANCE.registerMessage(PacketItemPickup.class, PacketItemPickup.class, desc++, Side.CLIENT);
+        INSTANCE.registerMessage(PacketRegisterChampionType.class, PacketRegisterChampionType.class, desc++, Side.CLIENT);
     }
 
     public static void sendToAll(IMessage msg)

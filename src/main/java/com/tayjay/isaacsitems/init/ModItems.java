@@ -21,6 +21,9 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 public class ModItems
 {
     //Declare Items here
+
+    public static ItemBase entityProbe;
+
     //public static ItemBase exampleItem;
     public static ItemHeart redHeartFull;
     public static ItemHeart redHeartHalf;
@@ -53,6 +56,8 @@ public class ModItems
     //Initialize items in here
     public static void init()
     {
+
+        entityProbe = register(new ItemEntityProbe("entityProbe"));
         //exampleItem = register(new ItemBase(...));
         redHeartFull = register(new ItemRedHeart("redHeartFull",true));
         redHeartHalf = register(new ItemRedHeart("redHeartHalf", false));

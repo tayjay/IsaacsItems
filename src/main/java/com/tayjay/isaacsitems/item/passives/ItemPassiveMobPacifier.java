@@ -30,7 +30,7 @@ public class ItemPassiveMobPacifier extends ItemPassive
             for (Object a : mob.targetTasks.taskEntries.toArray())
             {
                 EntityAIBase ai = ((EntityAITasks.EntityAITaskEntry)a).action;
-                if ((ai instanceof EntityAINearestAttackableTarget))
+                if ((ai instanceof EntityAINearestAttackableTarget) || ai instanceof EntityAIFindEntityNearestPlayer)
                 {
                     mob.targetTasks.removeTask(ai);
                 }

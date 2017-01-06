@@ -1,12 +1,16 @@
 package com.tayjay.isaacsitems.lib;
 
 import com.tayjay.isaacsitems.util.CapHelper;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AbstractAttributeMap;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.network.datasync.DataParameter;
+import net.minecraft.network.datasync.DataSerializers;
+import net.minecraft.network.datasync.EntityDataManager;
 import net.minecraft.util.math.MathHelper;
 
 import java.util.*;
@@ -23,8 +27,8 @@ public class Buffs
 --2db55bd0-b1b4-4597-a3be-957ed76f736c
 --445ec31b-0842-456e-ba8f-86866040555a
 --2ccae10f-e758-4b04-a94b-8e4b3ee64db3
-d1caf66e-bb10-43a4-ac8d-24f23bd3c0ff
-6c77317e-3d29-4f8a-b5c5-8c6a611a9ad0
+--d1caf66e-bb10-43a4-ac8d-24f23bd3c0ff
+--6c77317e-3d29-4f8a-b5c5-8c6a611a9ad0
 1b1a7562-25ec-48a5-973a-d9e201048c24
 b442c2af-8894-419d-8158-a27ada864c0d
 a7171542-d493-4116-a012-3f3da213be93
@@ -36,6 +40,10 @@ ee72d199-944a-4853-97a4-b16f59f68045
     private static final Random rand = new Random(27);
     private static HashMap<AttributeModifier,IAttribute> buffMap = new HashMap<AttributeModifier, IAttribute>();
     private static ArrayList<TimedAttributeModifier> timedBuffs = new ArrayList<TimedAttributeModifier>();
+
+    public static DataParameter<Byte> ENTITY_CHAMPION_TYPE = DataSerializers.BYTE.createKey(127);//EntityDataManager.<Byte>createKey(EntityLiving.class, DataSerializers.BYTE);
+    public static AttributeModifier CHAMPION_HEALTH_BUFF = new AttributeModifier(UUID.fromString("d1caf66e-bb10-43a4-ac8d-24f23bd3c0ff"),"champion_health_buff",10.0,0);
+    public static AttributeModifier CHAMPION_ATTACK_BUFF = new AttributeModifier(UUID.fromString("6c77317e-3d29-4f8a-b5c5-8c6a611a9ad0"),"champion_attack_buff",2.0,0);
 
     /*public static final UUID EXTRA_HEART_ID = MathHelper.getRandomUuid(rand);
     public static final UUID DAMAGE_UP_ID = MathHelper.getRandomUuid(rand);

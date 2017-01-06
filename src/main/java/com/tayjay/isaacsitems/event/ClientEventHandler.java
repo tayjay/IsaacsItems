@@ -7,6 +7,7 @@ import com.tayjay.isaacsitems.api.capabilities.IPlayerItemsProvider;
 import com.tayjay.isaacsitems.api.item.IActive;
 import com.tayjay.isaacsitems.api.item.ITrinket;
 import com.tayjay.isaacsitems.init.ModItems;
+import com.tayjay.isaacsitems.lib.Buffs;
 import com.tayjay.isaacsitems.util.CapHelper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.Gui;
@@ -202,6 +203,30 @@ public class ClientEventHandler
     @SubscribeEvent
     public void renderEntities(RenderLivingEvent.Pre event)
     {
+        try
+        {
+            byte entityType = event.getEntity().getDataManager().get(Buffs.ENTITY_CHAMPION_TYPE).byteValue();
+            if (entityType == 1)
+            {
+                GlStateManager.color(0, 0, 1);
+            } else if (entityType == 2)
+            {
+                GlStateManager.color(1, 0, 0);
+            } else if (entityType == 3)
+            {
+                GlStateManager.color(0, 1, 0);
+            } else if (entityType == 4)
+            {
+                GlStateManager.color(0, 1, 1);
+            } else if (entityType == 5)
+            {
+                GlStateManager.color(1, 1, 0);
+            }
+        } catch (NullPointerException e)
+        {
+            //Need to catch this as the new system of adding this data value only adds at initial spawn. Old entities cause crash.
+        }
+        /*
         if(event.getEntity() instanceof EntitySlime && event.getEntity().getEntityId()%2==0)
         {
             GlStateManager.color(0,0,1);
@@ -216,5 +241,6 @@ public class ClientEventHandler
         {
             GlStateManager.color(1,0,0);
         }
+        */
     }
 }
