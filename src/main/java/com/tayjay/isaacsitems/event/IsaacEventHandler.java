@@ -21,6 +21,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.inventory.ContainerEnchantment;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
@@ -30,6 +31,7 @@ import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.eventhandler.Event;
@@ -110,43 +112,9 @@ public class IsaacEventHandler
 
     }
 
-    @SubscribeEvent
-    public void pickupEvent(EntityItemPickupEvent event)
-    {
-        /*if(event.getEntityPlayer().worldObj.isRemote)
-            return;*/
-        if(event.getItem().getEntityItem().getItem() instanceof IPickup)
-        {
-            //Picking up item without activating onPickup event
-            if(event.getEntityPlayer().isCreative() && event.getEntityPlayer().isSneaking())
-                return;
 
-            //Somehow this stops the item from going into the player's main inventory
-            Item item = event.getItem().getEntityItem().getItem();
-            if(((IPickup) item).onPickup(event.getItem().getEntityItem(), event.getEntityPlayer()))
-            {
-                event.getItem().setDead();
-                event.setResult(Event.Result.ALLOW);
-                //event.getEntityPlayer().addChatMessage(new TextComponentString(event.getItem().getEntityItem().getDisplayName() +" : " + ((IPickup) event.getItem().getEntityItem().getItem()).getDescription()));
 
-                if(item instanceof IActive || item instanceof IPassive || item instanceof ITrinket)
-                    NetworkHandler.sendTo(new PacketItemPickup(event.getItem().getEntityItem().getDisplayName(),((IPickup) event.getItem().getEntityItem().getItem()).getDescription()), (EntityPlayerMP) event.getEntityPlayer());
-            }
-            else
-                event.setCanceled(true);
-        }
-    }
 
-    @SubscribeEvent
-    public void doHurtItemEffects(LivingHurtEvent event)
-    {
-        if(event.getEntityLiving().worldObj.isRemote)
-            return;
-        if (event.getEntityLiving() instanceof EntityPlayerMP)
-        {
-            CapHelper.getPlayerItemsCap((EntityPlayer) event.getEntityLiving()).activateHurtItems(event);
-        }
-    }
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public void onPlayerDeath(LivingDeathEvent event)
@@ -204,5 +172,31 @@ public class IsaacEventHandler
             //event.getDrops().add(new EntityItem(((EntityLiving) event.getEntityLiving()).worldObj, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(ModItems.soulHeart, 1)));
         }
     }
+
+
+
+
+    //todo: Maybe add this later. For now this impementation is too overpowered
+    /*@SubscribeEvent
+    public void checkEnchant(TickEvent.PlayerTickEvent event)
+    {
+        if (event.player.worldObj.isRemote)
+        {
+            return;
+        }
+        EntityPlayerMP player = (EntityPlayerMP) event.player;
+        if (player.openContainer instanceof ContainerEnchantment)
+        {
+            int[] levels = ((ContainerEnchantment) player.openContainer).enchantLevels;
+            for(int i = 0;i<levels.length;i++)
+            {
+                if(levels[i]<20)
+                {
+                    ((ContainerEnchantment) player.openContainer).enchantLevels[i] = 20;
+                }
+            }
+            player.openContainer.detectAndSendChanges();
+        }
+    }*/
 
 }

@@ -20,6 +20,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
  */
 public class ModItems
 {
+
     //Declare Items here
 
     public static ItemBase entityProbe;
@@ -83,7 +84,7 @@ public class ModItems
         passiveHungerCure = register(new ItemPassiveHungerCure("passiveHungerCure","Mmm, Zombie Flesh."));
 
         trinketBlank = register(new ItemTrinketBlank("trinketBlank","Hold it, it won't bite. Or do anything."));
-        trinketLuckyFoot = register(new ItemTrinketLuck("trinketLuckyFoot","+4 Luck!!!",4));
+        trinketLuckyFoot = register(new ItemTrinketLuck("trinketLuckyFoot","+1024 Luck!!!",1024));
         trinketXPGen = register(new ItemTrinketXPGen("trinketXPGen","Gives Levels."));
         trinketBattery = register(new ItemTrinketBattery("trinketBattery","It's gonna charge you."));
 

@@ -55,7 +55,7 @@ public class ClientEventHandler
         mc.fontRendererObj.drawString(playerData.getCoins()+"",28,80, Color.WHITE.getRGB());
         mc.fontRendererObj.drawString(playerData.getKeys()+"",28,98, Color.WHITE.getRGB());
         mc.fontRendererObj.drawString(playerData.getBombs()+"",28,120, Color.WHITE.getRGB());
-        mc.fontRendererObj.drawString(playerData.getSoulHearts() + "", 28, 138, Color.WHITE.getRGB());
+        //mc.fontRendererObj.drawString(playerData.getSoulHearts() + "", 28, 138, Color.WHITE.getRGB());
 
 
         GL11.glPushMatrix();
@@ -63,7 +63,7 @@ public class ClientEventHandler
         mc.getRenderItem().renderItemIntoGUI(new ItemStack(ModItems.penny,1,0),10,80);
         mc.getRenderItem().renderItemIntoGUI(new ItemStack(ModItems.key,1,0),10,98);
         mc.getRenderItem().renderItemIntoGUI(new ItemStack(ModItems.bomb,1,0),10,120);
-        mc.getRenderItem().renderItemIntoGUI(new ItemStack(ModItems.soulHeart, 1, 0), 10, 138);
+        //mc.getRenderItem().renderItemIntoGUI(new ItemStack(ModItems.soulHeart, 1, 0), 10, 138);
         GL11.glPopMatrix();
         //End Draw consumable counts***
 

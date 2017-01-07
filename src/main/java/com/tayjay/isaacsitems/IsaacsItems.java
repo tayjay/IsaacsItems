@@ -4,6 +4,7 @@ import com.tayjay.isaacsitems.capability.ActiveDataImpl;
 import com.tayjay.isaacsitems.capability.PlayerDataImpl;
 import com.tayjay.isaacsitems.capability.PlayerItemsImpl;
 import com.tayjay.isaacsitems.event.IsaacEventHandler;
+import com.tayjay.isaacsitems.event.ItemEventHandler;
 import com.tayjay.isaacsitems.handler.GuiHandler;
 import com.tayjay.isaacsitems.init.ModBlocks;
 import com.tayjay.isaacsitems.init.ModItems;
@@ -79,6 +80,7 @@ public class IsaacsItems
     public void init(FMLInitializationEvent event)
     {
         MinecraftForge.EVENT_BUS.register(new IsaacEventHandler());
+        MinecraftForge.EVENT_BUS.register(new ItemEventHandler());
         NetworkRegistry.INSTANCE.registerGuiHandler(instance,new GuiHandler());
         proxy.init();
     }

@@ -20,6 +20,8 @@ public class CommonProxy
 
     public void registerKeyBindings(){}
 
+    public void registerRenderers(){}
+
     public IPlayerDataProvider getClientPlayerData(){return null;}
 
     public ClientEventHandler getClientEventHandler(){return null;}

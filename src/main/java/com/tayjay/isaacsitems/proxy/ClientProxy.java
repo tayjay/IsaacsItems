@@ -2,7 +2,9 @@ package com.tayjay.isaacsitems.proxy;
 
 import com.tayjay.isaacsitems.IsaacsItems;
 import com.tayjay.isaacsitems.api.capabilities.IPlayerDataProvider;
+import com.tayjay.isaacsitems.block.tileentity.TileEntityPedestal;
 import com.tayjay.isaacsitems.client.handler.KeyInputHandler;
+import com.tayjay.isaacsitems.client.render.RenderTilePedestal;
 import com.tayjay.isaacsitems.client.settings.Keybindings;
 import com.tayjay.isaacsitems.event.ClientEventHandler;
 import com.tayjay.isaacsitems.util.CapHelper;
@@ -24,6 +26,7 @@ public class ClientProxy extends CommonProxy
     public void registerItemRenderer(Item item, int meta, String id)
     {
         ModelLoader.setCustomModelResourceLocation(item,meta, new ModelResourceLocation(IsaacsItems.modId+":"+id,"inventory"));//inventory
+
     }
 
     @Override
@@ -36,6 +39,7 @@ public class ClientProxy extends CommonProxy
     public void preInit()
     {
         registerKeyBindings();
+        registerRenderers();
     }
 
     @Override
@@ -46,6 +50,12 @@ public class ClientProxy extends CommonProxy
         {
             ClientRegistry.registerKeyBinding(key.getKeybind());
         }
+    }
+
+    @Override
+    public void registerRenderers()
+    {
+        ClientRegistry.bindTileEntitySpecialRenderer(TileEntityPedestal.class,new RenderTilePedestal());
     }
 
     @Override
