@@ -9,9 +9,9 @@ import net.minecraft.item.ItemStack;
  */
 public class ItemTrinketXPGen extends ItemTrinket
 {
-    public ItemTrinketXPGen(String name, String description)
+    public ItemTrinketXPGen(String name)
     {
-        super(name, description);
+        super(name);
     }
 
     @Override

@@ -7,16 +7,15 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.potion.PotionUtils;
 
 /**
  * Created by tayjay on 2017-01-02.
  */
 public class ItemActiveDropPotion extends ItemActive
 {
-    public ItemActiveDropPotion(String name, String description, int charges)
+    public ItemActiveDropPotion(String name, int charges)
     {
-        super(name, description, charges);
+        super(name, charges);
     }
 
     @Override

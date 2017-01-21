@@ -1,13 +1,10 @@
 package com.tayjay.isaacsitems.item.trinkets;
 
 import com.tayjay.isaacsitems.item.ItemTrinket;
+import com.tayjay.isaacsitems.lib.AttributeModifierPair;
 import com.tayjay.isaacsitems.lib.Buffs;
-import com.tayjay.isaacsitems.util.CapHelper;
-import com.tayjay.isaacsitems.util.ItemHelper;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.ItemStack;
 
 import java.util.UUID;
 
@@ -16,10 +13,10 @@ import java.util.UUID;
  */
 public class ItemTrinketBlank extends ItemTrinket
 {
-    public ItemTrinketBlank(String name,String description)
+    public ItemTrinketBlank(String name)
     {
-        super(name,description);
-        modifiers.add(Buffs.addBuff(new AttributeModifier(UUID.fromString("2db55bd0-b1b4-4597-a3be-957ed76f736c"),"-7 Hearts, sorry.",-14.0,0),SharedMonsterAttributes.MAX_HEALTH));
+        super(name);
+        modifiers.add(new AttributeModifierPair(new AttributeModifier(UUID.fromString("2db55bd0-b1b4-4597-a3be-957ed76f736c"),"isaac:-7 Hearts, sorry.",-14.0,0),SharedMonsterAttributes.MAX_HEALTH));
     }
 
     /*@Override

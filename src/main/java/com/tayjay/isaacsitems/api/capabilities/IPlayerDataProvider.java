@@ -1,5 +1,6 @@
 package com.tayjay.isaacsitems.api.capabilities;
 
+import com.tayjay.isaacsitems.lib.TimedAttributeModifier;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.item.ItemStack;
@@ -8,6 +9,7 @@ import net.minecraftforge.common.util.INBTSerializable;
 import net.minecraftforge.items.IItemHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by tayjay on 2016-12-26.
@@ -17,6 +19,7 @@ public interface IPlayerDataProvider extends INBTSerializable<NBTTagCompound>
 
     /**
      * Number of red heart canisters the player can have
+     *
      * @return
      */
     float getRedHearts();
@@ -25,6 +28,7 @@ public interface IPlayerDataProvider extends INBTSerializable<NBTTagCompound>
 
     /**
      * Number of sould hearts the player is holding.
+     *
      * @return
      */
     float getSoulHearts();
@@ -50,6 +54,12 @@ public interface IPlayerDataProvider extends INBTSerializable<NBTTagCompound>
     //Breaking up sync operations to avoid conflicts
     void sync(EntityPlayerMP player);
 
+    List<TimedAttributeModifier> getTimedModifiers();
 
+    void addTimedModifier(TimedAttributeModifier timedAttributeModifier);
+
+    void removeTimedModifier(TimedAttributeModifier timedAttributeModifier);
+
+    void tickTimedAttributeModifiers();
 
 }

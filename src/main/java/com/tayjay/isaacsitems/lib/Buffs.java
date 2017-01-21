@@ -21,27 +21,27 @@ import java.util.*;
 public class Buffs
 {
     /*
-    --bb558ab4-68ff-4899-b6f2-70db6580a14d
---8136aebd-c3ae-41d1-8289-e61c3d81bd55
---44019de9-6b2f-4e9f-86f1-f2aa2733ea4a
---2db55bd0-b1b4-4597-a3be-957ed76f736c
---445ec31b-0842-456e-ba8f-86866040555a
---2ccae10f-e758-4b04-a94b-8e4b3ee64db3
---d1caf66e-bb10-43a4-ac8d-24f23bd3c0ff
---6c77317e-3d29-4f8a-b5c5-8c6a611a9ad0
-1b1a7562-25ec-48a5-973a-d9e201048c24
-b442c2af-8894-419d-8158-a27ada864c0d
-a7171542-d493-4116-a012-3f3da213be93
-6acccb4f-23a0-4d36-9f90-dc4f7d5525d9
-7a23e9b5-c871-4b65-9c56-c762a59bc17d
-ee72d199-944a-4853-97a4-b16f59f68045
-253f3b31-ddec-4c3e-bc84-d7a164ada7f7
+--274f0c84-585a-455a-8c7d-e3ded6e2ce10
+--500bb5bb-6115-4948-8234-8e0b1236368f
+9ab14d73-b1d7-47fd-994a-7775dd9ef620
+e6986c28-3cb4-469b-97f8-6a6d1a526453
+355c85c7-b7e2-4920-9fcd-d33cf2b00c56
+0e8d82de-0525-4eb3-bf03-f7f5df7a8363
+147f47f1-89fc-4f3f-aa66-6871e022b279
+aa7fcf2e-6ae4-4e45-b403-ea957f11874e
+b622b844-19fb-46ee-8c4b-66d549274083
+36db728f-76b1-455f-936c-98fc3f66c919
+870d6577-fa21-4150-a00c-892b9e36d723
+1a4bbb1b-0f7d-4ddf-92da-11233609c1bd
+dbf8b128-cabd-42a1-848e-f1bfc8d8423c
+7a0e940f-0f06-41fa-89ae-3cc62dea94a6
+d7dac856-d2eb-40ae-a519-16ddd52eab64
      */
-    private static final Random rand = new Random(27);
+    /*private static final Random rand = new Random(27);
     private static HashMap<AttributeModifier,IAttribute> buffMap = new HashMap<AttributeModifier, IAttribute>();
-    private static ArrayList<TimedAttributeModifier> timedBuffs = new ArrayList<TimedAttributeModifier>();
+    private static ArrayList<TimedAttributeModifier> timedBuffs = new ArrayList<TimedAttributeModifier>();*/
 
-    public static DataParameter<Byte> ENTITY_CHAMPION_TYPE = DataSerializers.BYTE.createKey(127);//EntityDataManager.<Byte>createKey(EntityLiving.class, DataSerializers.BYTE);
+    //public static DataParameter<Byte> ENTITY_CHAMPION_TYPE = DataSerializers.BYTE.createKey(127);//EntityDataManager.<Byte>createKey(EntityLiving.class, DataSerializers.BYTE);
     public static AttributeModifier CHAMPION_HEALTH_BUFF = new AttributeModifier(UUID.fromString("d1caf66e-bb10-43a4-ac8d-24f23bd3c0ff"),"champion_health_buff",10.0,0);
     public static AttributeModifier CHAMPION_ATTACK_BUFF = new AttributeModifier(UUID.fromString("6c77317e-3d29-4f8a-b5c5-8c6a611a9ad0"),"champion_attack_buff",2.0,0);
 
@@ -53,31 +53,25 @@ ee72d199-944a-4853-97a4-b16f59f68045
                                                                                                                     //2=d1 *= 1.0D + attributemodifier2.getAmount();
     public static final AttributeModifier DAMAGE_UP = addBuff(new AttributeModifier(DAMAGE_UP_ID,"Damage Up",5.0,0),SharedMonsterAttributes.ATTACK_DAMAGE);
 */
-    public static AttributeModifier addBuff(AttributeModifier mod,IAttribute attribute)
+    /*public static AttributeModifier addBuff(AttributeModifier mod,IAttribute attribute)
     {
         buffMap.put(mod,attribute);
         return mod;
-    }
+    }*/
 
     public static TimedAttributeModifier addTimedBuff(AttributeModifier mod, IAttribute attribute, int duration, EntityPlayer player)
     {
         TimedAttributeModifier timedAttributeModifier = new TimedAttributeModifier(mod, attribute, duration, player);
-        timedBuffs.add(timedAttributeModifier);
+        CapHelper.getPlayerDataCap(player).addTimedModifier(timedAttributeModifier);
         return timedAttributeModifier;
     }
 
-    public static void tickTimedBuffs()
+    public static void tickTimedBuffs(EntityPlayer player)
     {
-        for (Object mod : timedBuffs.toArray())
-        {
-            TimedAttributeModifier timedMod =  (TimedAttributeModifier)mod;
-            timedMod.tickAttribute();
-            if(timedMod.ticksRemaining<0)
-                timedBuffs.remove(timedMod);
-        }
+        CapHelper.getPlayerDataCap(player).tickTimedAttributeModifiers();
     }
 
-    public static void applyAttributeModifier(EntityPlayer player, AttributeModifier modifier)
+    /*public static void applyAttributeModifier(EntityPlayer player, AttributeModifier modifier)
     {
         if(!buffMap.values().contains(modifier))
         {
@@ -86,6 +80,11 @@ ee72d199-944a-4853-97a4-b16f59f68045
         }
         if(!player.getEntityAttribute(buffMap.get(modifier)).hasModifier(modifier))
             player.getEntityAttribute(buffMap.get(modifier)).applyModifier(modifier);
+    }*/
+
+    public static byte getChampionType(EntityLiving mob)
+    {
+        return (byte)(mob.getUniqueID().getMostSignificantBits() % 20 - 15);
     }
 
     /**
@@ -94,16 +93,32 @@ ee72d199-944a-4853-97a4-b16f59f68045
      */
     public static void confirmPlayerBuffs(EntityPlayer player)
     {
-        ArrayList<AttributeModifier> activeModifiers = CapHelper.getPlayerItemsCap(player).getActiveAttributeModifiers();
-        //Remove old modifiers and add missing ones.
-        for (AttributeModifier modifier : buffMap.keySet())
+        ArrayList<AttributeModifierPair> activeModifiers = CapHelper.getPlayerItemsCap(player).getActiveAttributeModifiers();
+        //Collection<IAttributeInstance> playerAttributes = player.getAttributeMap().getAllAttributes();
+        for (IAttributeInstance attributeInstance : player.getAttributeMap().getAllAttributes())
         {
-            if(player.getEntityAttribute(buffMap.get(modifier)).hasModifier(modifier) && !activeModifiers.contains(modifier))
-                player.getEntityAttribute(buffMap.get(modifier)).removeModifier(modifier);
+            for(AttributeModifier modifier : attributeInstance.getModifiers())
+            {
+                if (modifier.getName().contains("isaac"))
+                {
+                    attributeInstance.removeModifier(modifier);
+                }
+            }
+        }
+        for (AttributeModifierPair modifier : activeModifiers)
+        {
+            player.getAttributeMap().getAttributeInstance(modifier.attribute).applyModifier(modifier.modifier);
+        }
 
+        //Remove old modifiers and add missing ones.
+        /*for (AttributeModifier modifier : buffMap.keySet())
+        {
             if(activeModifiers.contains(modifier) && !player.getEntityAttribute(buffMap.get(modifier)).hasModifier(modifier))
                 player.getEntityAttribute(buffMap.get(modifier)).applyModifier(modifier);
-        }
+
+            if(player.getEntityAttribute(buffMap.get(modifier)).hasModifier(modifier) && !activeModifiers.contains(modifier))
+                player.getEntityAttribute(buffMap.get(modifier)).removeModifier(modifier);
+        }*/
 
     }
 

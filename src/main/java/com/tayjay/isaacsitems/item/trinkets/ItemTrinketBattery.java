@@ -12,16 +12,16 @@ import net.minecraft.item.ItemStack;
  */
 public class ItemTrinketBattery extends ItemTrinket
 {
-    public ItemTrinketBattery(String name, String description)
+    public ItemTrinketBattery(String name)
     {
-        super(name, description);
+        super(name);
     }
 
     @Override
     public void tickTrinket(ItemStack stack, EntityPlayer player)
     {
         super.tickTrinket(stack, player);
-        if (player.worldObj.getTotalWorldTime() % 20 == 0 && player.getRNG().nextInt(20) == 0)
+        if (player.worldObj.getTotalWorldTime() % 5 == 0 && player.getRNG().nextInt(10) == 0)
         {
             IPlayerItemsProvider playerItemsProvider = CapHelper.getPlayerItemsCap(player);
             if (playerItemsProvider.getActiveItem() != null && playerItemsProvider.getActiveItem().getItem() instanceof IActive)

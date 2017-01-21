@@ -3,11 +3,8 @@ package com.tayjay.isaacsitems.item.passives;
 import com.tayjay.isaacsitems.item.ItemPassive;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.ai.*;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.math.AxisAlignedBB;
 
 import java.util.List;
 
@@ -16,9 +13,9 @@ import java.util.List;
  */
 public class ItemPassiveMobPacifier extends ItemPassive
 {
-    public ItemPassiveMobPacifier(String name, String description)
+    public ItemPassiveMobPacifier(String name)
     {
-        super(name, description);
+        super(name);
     }
 
     @Override

@@ -43,4 +43,6 @@ public interface IActive
     void addCharge(ItemStack stack);
 
     boolean drainCharge(ItemStack stack);
+
+    void renderInGUI(ItemStack stack);
 }

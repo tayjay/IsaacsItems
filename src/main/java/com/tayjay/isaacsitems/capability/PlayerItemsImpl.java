@@ -2,11 +2,12 @@ package com.tayjay.isaacsitems.capability;
 
 import com.tayjay.isaacsitems.api.IsaacAPI;
 import com.tayjay.isaacsitems.api.capabilities.IPlayerItemsProvider;
-import com.tayjay.isaacsitems.api.events.IHurtItem;
+import com.tayjay.isaacsitems.api.events.*;
 import com.tayjay.isaacsitems.api.item.IActive;
 import com.tayjay.isaacsitems.api.item.IPassive;
 import com.tayjay.isaacsitems.api.item.IStatModifier;
 import com.tayjay.isaacsitems.api.item.ITrinket;
+import com.tayjay.isaacsitems.lib.AttributeModifierPair;
 import com.tayjay.isaacsitems.network.NetworkHandler;
 import com.tayjay.isaacsitems.network.packets.PacketSyncActiveItem;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -20,7 +21,11 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityManager;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.event.entity.living.LivingAttackEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
+import net.minecraftforge.event.entity.player.PlayerContainerEvent;
+import net.minecraftforge.event.entity.player.PlayerEvent;
+import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.items.CapabilityItemHandler;
 import net.minecraftforge.items.IItemHandler;
 import net.minecraftforge.items.ItemStackHandler;
@@ -116,9 +121,9 @@ public class PlayerItemsImpl
         }
 
         @Override
-        public ArrayList<AttributeModifier> getActiveAttributeModifiers()
+        public ArrayList<AttributeModifierPair> getActiveAttributeModifiers()
         {
-            ArrayList<AttributeModifier> mods = new ArrayList<AttributeModifier>();
+            ArrayList<AttributeModifierPair> mods = new ArrayList<AttributeModifierPair>();
             for(int i = 0;i<passiveItems.getSlots();i++)
             {
                 if (passiveItems.getStackInSlot(i) != null && passiveItems.getStackInSlot(i).getItem() instanceof IStatModifier)
@@ -189,6 +194,122 @@ public class PlayerItemsImpl
                 if (activeInv.getStackInSlot(k) != null && activeInv.getStackInSlot(k).getItem() instanceof IHurtItem)
                 {
                     ((IHurtItem) activeInv.getStackInSlot(k).getItem()).onHurtEvent(event);
+                }
+            }
+        }
+
+        @Override
+        public void activateAttackItems(LivingAttackEvent event)
+        {
+            for(int i = 0;i<passiveItems.getSlots();i++)
+            {
+                if (passiveItems.getStackInSlot(i) != null && passiveItems.getStackInSlot(i).getItem() instanceof IAttackItem)
+                {
+                    ((IAttackItem) passiveItems.getStackInSlot(i).getItem()).onAttackEvent(event);
+                }
+            }
+
+            for(int j = 0;j<trinketInv.getSlots();j++)
+            {
+                if(trinketInv.getStackInSlot(j)!=null && trinketInv.getStackInSlot(j).getItem() instanceof IAttackItem)
+                    ((IAttackItem) trinketInv.getStackInSlot(j).getItem()).onAttackEvent(event);
+            }
+
+            for(int k = 0;k<activeInv.getSlots();k++)
+            {
+                if (activeInv.getStackInSlot(k) != null && activeInv.getStackInSlot(k).getItem() instanceof IAttackItem)
+                {
+                    ((IAttackItem) activeInv.getStackInSlot(k).getItem()).onAttackEvent(event);
+                }
+            }
+        }
+
+        @Override
+        public void activateContainerChangeItems(PlayerContainerEvent event)
+        {
+            for(int i = 0;i<passiveItems.getSlots();i++)
+            {
+                if (passiveItems.getStackInSlot(i) != null && passiveItems.getStackInSlot(i).getItem() instanceof IChangeContainerItem)
+                {
+                    if(event instanceof PlayerContainerEvent.Open)
+                        ((IChangeContainerItem) passiveItems.getStackInSlot(i).getItem()).onOpenContainer((PlayerContainerEvent.Open) event);
+                    else if(event instanceof PlayerContainerEvent.Close)
+                        ((IChangeContainerItem) passiveItems.getStackInSlot(i).getItem()).onCloseContainer((PlayerContainerEvent.Close) event);
+                }
+            }
+
+            for(int j = 0;j<trinketInv.getSlots();j++)
+            {
+                if (trinketInv.getStackInSlot(j) != null && trinketInv.getStackInSlot(j).getItem() instanceof IChangeContainerItem)
+                {
+                    if (event instanceof PlayerContainerEvent.Open)
+                        ((IChangeContainerItem) trinketInv.getStackInSlot(j).getItem()).onOpenContainer((PlayerContainerEvent.Open) event);
+                    else if (event instanceof PlayerContainerEvent.Close)
+                        ((IChangeContainerItem) trinketInv.getStackInSlot(j).getItem()).onCloseContainer((PlayerContainerEvent.Close) event);
+
+                }
+            }
+
+            for(int k = 0;k<activeInv.getSlots();k++)
+            {
+                if (activeInv.getStackInSlot(k) != null && activeInv.getStackInSlot(k).getItem() instanceof IChangeContainerItem)
+                {
+                    if (event instanceof PlayerContainerEvent.Open)
+                        ((IChangeContainerItem) activeInv.getStackInSlot(k).getItem()).onOpenContainer((PlayerContainerEvent.Open) event);
+                    else if (event instanceof PlayerContainerEvent.Close)
+                        ((IChangeContainerItem) activeInv.getStackInSlot(k).getItem()).onCloseContainer((PlayerContainerEvent.Close) event);
+                }
+            }
+        }
+
+        @Override
+        public void activateBreakSpeedItems(PlayerEvent.BreakSpeed event)
+        {
+            for(int i = 0;i<passiveItems.getSlots();i++)
+            {
+                if (passiveItems.getStackInSlot(i) != null && passiveItems.getStackInSlot(i).getItem() instanceof IBreakSpeedItem)
+                {
+                    ((IBreakSpeedItem) passiveItems.getStackInSlot(i).getItem()).checkBreakSpeed(event);
+                }
+            }
+
+            for(int j = 0;j<trinketInv.getSlots();j++)
+            {
+                if(trinketInv.getStackInSlot(j)!=null && trinketInv.getStackInSlot(j).getItem() instanceof IBreakSpeedItem)
+                    ((IBreakSpeedItem) trinketInv.getStackInSlot(j).getItem()).checkBreakSpeed(event);
+            }
+
+            for(int k = 0;k<activeInv.getSlots();k++)
+            {
+                if (activeInv.getStackInSlot(k) != null && activeInv.getStackInSlot(k).getItem() instanceof IBreakSpeedItem)
+                {
+                    ((IBreakSpeedItem) activeInv.getStackInSlot(k).getItem()).checkBreakSpeed(event);
+                }
+            }
+        }
+
+        @Override
+        public void activateBlockHarvestItems(BlockEvent.HarvestDropsEvent event)
+        {
+            for(int i = 0;i<passiveItems.getSlots();i++)
+            {
+                if (passiveItems.getStackInSlot(i) != null && passiveItems.getStackInSlot(i).getItem() instanceof IBlockHarvestItem)
+                {
+                    ((IBlockHarvestItem) passiveItems.getStackInSlot(i).getItem()).onBlockHarvest(event);
+                }
+            }
+
+            for(int j = 0;j<trinketInv.getSlots();j++)
+            {
+                if(trinketInv.getStackInSlot(j)!=null && trinketInv.getStackInSlot(j).getItem() instanceof IBlockHarvestItem)
+                    ((IBlockHarvestItem) trinketInv.getStackInSlot(j).getItem()).onBlockHarvest(event);
+            }
+
+            for(int k = 0;k<activeInv.getSlots();k++)
+            {
+                if (activeInv.getStackInSlot(k) != null && activeInv.getStackInSlot(k).getItem() instanceof IBlockHarvestItem)
+                {
+                    ((IBlockHarvestItem) activeInv.getStackInSlot(k).getItem()).onBlockHarvest(event);
                 }
             }
         }

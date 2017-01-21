@@ -1,7 +1,6 @@
 package com.tayjay.isaacsitems.api.item;
 
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttribute;
+import com.tayjay.isaacsitems.lib.AttributeModifierPair;
 import net.minecraft.item.ItemStack;
 
 import java.util.ArrayList;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
  */
 public interface IStatModifier
 {
-    ArrayList<AttributeModifier> getStatModifiers(ItemStack stack);
+    ArrayList<AttributeModifierPair> getStatModifiers(ItemStack stack);
 
     //void addStatModifier(AttributeModifier modifier, IAttribute attribute);
 }

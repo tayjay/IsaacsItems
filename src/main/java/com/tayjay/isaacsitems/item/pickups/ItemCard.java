@@ -1,16 +1,15 @@
 package com.tayjay.isaacsitems.item.pickups;
 
 import com.tayjay.isaacsitems.item.ItemPickup;
-import com.tayjay.isaacsitems.util.CapHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 
 /**
- * Created by tayjay on 2016-12-27.
+ * Created by tayjay on 2017-01-21.
  */
-public class ItemBomb extends ItemPickup
+public class ItemCard extends ItemPickup
 {
-    public ItemBomb(String name)
+    public ItemCard(String name)
     {
         super(name);
     }
@@ -18,7 +17,6 @@ public class ItemBomb extends ItemPickup
     @Override
     public boolean onPickup(ItemStack stack, EntityPlayer player)
     {
-        CapHelper.getPlayerDataCap(player).addBombs(stack.stackSize);
-        return true;
+        return false;
     }
 }

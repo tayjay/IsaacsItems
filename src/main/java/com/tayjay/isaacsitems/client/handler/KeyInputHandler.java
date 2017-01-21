@@ -42,8 +42,8 @@ public class KeyInputHandler
                     ItemStack stack = CapHelper.getPlayerItemsCap(Minecraft.getMinecraft().thePlayer).getActiveItem();
                     if(stack!=null && stack.getItem() instanceof IActive)
                     {
-                        if(((IActive)stack.getItem()).drainCharge(stack))
-                            NetworkHandler.sendToServer(new PacketActivateItem(Minecraft.getMinecraft().thePlayer));
+                        ((IActive)stack.getItem()).drainCharge(stack);
+                        NetworkHandler.sendToServer(new PacketActivateItem(Minecraft.getMinecraft().thePlayer));
                     }
                     break;
                 case OPEN_ITEMS_GUI:

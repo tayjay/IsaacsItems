@@ -1,8 +1,9 @@
 package com.tayjay.isaacsitems.item;
 
+import com.tayjay.isaacsitems.IsaacsItems;
 import com.tayjay.isaacsitems.api.item.IStatModifier;
 import com.tayjay.isaacsitems.api.item.ITrinket;
-import com.tayjay.isaacsitems.item.ItemPickup;
+import com.tayjay.isaacsitems.lib.AttributeModifierPair;
 import com.tayjay.isaacsitems.util.CapHelper;
 import com.tayjay.isaacsitems.util.ItemHelper;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
@@ -16,12 +17,13 @@ import java.util.ArrayList;
  */
 public class ItemTrinket extends ItemPickup implements ITrinket,IStatModifier
 {
-    protected ArrayList<AttributeModifier> modifiers;
-    public ItemTrinket(String name,String description)
+    protected ArrayList<AttributeModifierPair> modifiers;
+    public ItemTrinket(String name)
     {
-        super(name,description);
-        modifiers = new ArrayList<AttributeModifier>();
+        super(name);
+        modifiers = new ArrayList<AttributeModifierPair>();
         setMaxStackSize(1);
+        this.setCreativeTab(IsaacsItems.trinketItemsTab);
     }
 
     @Override
@@ -55,7 +57,7 @@ public class ItemTrinket extends ItemPickup implements ITrinket,IStatModifier
     }
 
     @Override
-    public ArrayList<AttributeModifier> getStatModifiers(ItemStack stack)
+    public ArrayList<AttributeModifierPair> getStatModifiers(ItemStack stack)
     {
         return modifiers;
     }

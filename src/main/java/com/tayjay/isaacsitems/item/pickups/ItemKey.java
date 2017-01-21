@@ -12,7 +12,7 @@ public class ItemKey extends ItemPickup
 {
     public ItemKey(String name)
     {
-        super(name,"Open sesame.");
+        super(name);
     }
 
     @Override

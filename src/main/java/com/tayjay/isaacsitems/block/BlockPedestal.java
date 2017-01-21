@@ -39,7 +39,7 @@ public class BlockPedestal extends BlockBase
     {
         super.onBlockPlacedBy(worldIn, pos, state, placer, stack);
         TileEntityPedestal te = (TileEntityPedestal) worldIn.getTileEntity(pos);
-        te.getItemHandler().setStackInSlot(0,new ItemStack(placer.getRNG().nextInt(2)>0?ModItems.activePocketCreeper : ModItems.activeNightVision,1));
+        te.getItemHandler().setStackInSlot(0,new ItemStack(ModItems.activeItems.get(placer.getRNG().nextInt(ModItems.activeItems.size()))));
     }
 
     @Override

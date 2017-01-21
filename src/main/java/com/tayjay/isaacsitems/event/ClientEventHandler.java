@@ -15,11 +15,15 @@ import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.boss.EntityWither;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityEnderman;
 import net.minecraft.entity.monster.EntitySlime;
+import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderLivingEvent;
@@ -51,7 +55,10 @@ public class ClientEventHandler
         IPlayerItemsProvider playerItems = CapHelper.getPlayerItemsCap(mc.thePlayer);
 
         GlStateManager.pushMatrix();
-        //Draw consumable counts***
+        mc.fontRendererObj.drawString("ATTACK_DAMAGE: " +
+                (mc.thePlayer.getEntityAttribute(SharedMonsterAttributes.ATTACK_DAMAGE).getAttributeValue()
+                + (mc.thePlayer.getHeldItemMainhand()!=null && mc.thePlayer.getHeldItemMainhand().getItem() instanceof ItemSword?((ItemSword) mc.thePlayer.getHeldItemMainhand().getItem()).getItemAttributeModifiers(EntityEquipmentSlot.MAINHAND).get(SharedMonsterAttributes.ATTACK_DAMAGE.getAttributeUnlocalizedName()).iterator().next().getAmount():0)), 28, 60, Color.WHITE.getRGB());
+        /*//Draw consumable counts***
         mc.fontRendererObj.drawString(playerData.getCoins()+"",28,80, Color.WHITE.getRGB());
         mc.fontRendererObj.drawString(playerData.getKeys()+"",28,98, Color.WHITE.getRGB());
         mc.fontRendererObj.drawString(playerData.getBombs()+"",28,120, Color.WHITE.getRGB());
@@ -65,59 +72,12 @@ public class ClientEventHandler
         mc.getRenderItem().renderItemIntoGUI(new ItemStack(ModItems.bomb,1,0),10,120);
         //mc.getRenderItem().renderItemIntoGUI(new ItemStack(ModItems.soulHeart, 1, 0), 10, 138);
         GL11.glPopMatrix();
-        //End Draw consumable counts***
+        //End Draw consumable counts****/
 
 
-        //Draw charge bar
-        if(playerItems.getActiveItem()!=null)
+        if (playerItems.getActiveItem() != null && playerItems.getActiveItem().getItem() instanceof IActive)
         {
-            IActive activeItem = (IActive) playerItems.getActiveItem().getItem();
-            if(activeItem!=null)
-            {
-                double currentCharge = activeItem.getCurrentCharge(playerItems.getActiveItem());
-                double maxCharge = activeItem.getMaxCharge(playerItems.getActiveItem());
-
-                GL11.glPushMatrix();
-                Gui.drawRect(7,7,34,34,new Color(1,1,1,0.2f).getRGB());
-
-                mc.fontRendererObj.drawString("Current Charge:" + currentCharge, 28, 78, Color.WHITE.getRGB());
-                mc.fontRendererObj.drawString("Max Charge: "+maxCharge,28,86,Color.WHITE.getRGB());
-
-                GL11.glPopMatrix();
-
-                GL11.glPushMatrix();
-
-                //GL11.glRotatef(180,0,0,1);
-                Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(IsaacsItems.modId.toLowerCase(), "textures/gui/itemChargeBarBlank.png"));
-                Gui.drawModalRectWithCustomSizedTexture(10, 5, 0, 0, 32, 32, 32, 32);
-
-                Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(IsaacsItems.modId.toLowerCase(), "textures/gui/itemChargeBarFill.png"));
-                Gui.drawModalRectWithCustomSizedTexture(10, (37 - (int) Math.floor(32 * (currentCharge / maxCharge))), 0, 0, 32, (int) Math.floor(32 * (currentCharge / maxCharge)), 32, 32);
-
-                GL11.glPopMatrix();
-
-
-                GL11.glPushMatrix();
-
-                Minecraft.getMinecraft().renderEngine.bindTexture(new ResourceLocation(IsaacsItems.modId.toLowerCase(), "textures/gui/itemChargeBarEmpty.png"));
-                Gui.drawModalRectWithCustomSizedTexture(10, 5, 0, 0, 32, 32, 32, 32);
-
-
-                GL11.glPopMatrix();
-
-                GL11.glPushMatrix();
-                for (int i = 1; i < maxCharge ; i++)
-                {
-                    Gui.drawRect(37,  5+(int) Math.floor(32 * (i / maxCharge)), 41, 5+ (int) Math.floor(32 * (i / maxCharge)) + 1, Color.BLACK.getRGB());
-                }
-                GL11.glPopMatrix();
-
-                GL11.glPushMatrix();
-                GL11.glScaled(1.6, 1.6, 0);
-                RenderHelper.enableGUIStandardItemLighting();
-                mc.getRenderItem().renderItemIntoGUI(playerItems.getActiveItem(), 5, 5);
-                GL11.glPopMatrix();
-            }
+            ((IActive) playerItems.getActiveItem().getItem()).renderInGUI(playerItems.getActiveItem());
         }
 
         //ITrinket trinket = (ITrinket) playerItems.getTrinketItem().getItem();
@@ -160,23 +120,6 @@ public class ClientEventHandler
 
     }
 
-    @SubscribeEvent
-    public void renderPlayerHealth(RenderGameOverlayEvent.Pre event)
-    {
-        /*Minecraft mc = Minecraft.getMinecraft();
-        if (event.getType() == RenderGameOverlayEvent.ElementType.HEALTH)
-        {
-            event.setResult(Event.Result.ALLOW);
-
-            GlStateManager.pushMatrix();
-            ScaledResolution scaledResolution = new ScaledResolution(mc);
-            int scaledWidth = scaledResolution.getScaledWidth();
-            int scaledHeight = scaledResolution.getScaledHeight();
-            mc.fontRendererObj.drawString("Health is working", scaledWidth / 2 - mc.fontRendererObj.getStringWidth(this.popupDescription) / 2, 26, Color.BLACK.getRGB());
-            GlStateManager.popMatrix();
-        }*/
-    }
-
     public void setPopupStrings(String name, String description)
     {
         this.lastPopupUpdate = Minecraft.getMinecraft().theWorld.getTotalWorldTime();
@@ -198,14 +141,12 @@ public class ClientEventHandler
     }
     //\\
 
-
-    //todo: Remember this, here is setting colour of mobs
     @SubscribeEvent
     public void renderEntities(RenderLivingEvent.Pre event)
     {
-        try
+        if (event.getEntity() instanceof EntityLiving)
         {
-            byte entityType = event.getEntity().getDataManager().get(Buffs.ENTITY_CHAMPION_TYPE).byteValue();
+            byte entityType = Buffs.getChampionType((EntityLiving) event.getEntity());
             if (entityType == 1)
             {
                 GlStateManager.color(0, 0, 1);
@@ -222,9 +163,6 @@ public class ClientEventHandler
             {
                 GlStateManager.color(1, 1, 0);
             }
-        } catch (NullPointerException e)
-        {
-            //Need to catch this as the new system of adding this data value only adds at initial spawn. Old entities cause crash.
         }
         /*
         if(event.getEntity() instanceof EntitySlime && event.getEntity().getEntityId()%2==0)

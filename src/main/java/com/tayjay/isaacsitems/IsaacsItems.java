@@ -10,6 +10,7 @@ import com.tayjay.isaacsitems.init.ModBlocks;
 import com.tayjay.isaacsitems.init.ModItems;
 import com.tayjay.isaacsitems.proxy.CommonProxy;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.config.Configuration;
@@ -34,6 +35,9 @@ public class IsaacsItems
     public static final String guiFactory = "com.tayjay.isaacsitems.client.GuiFactory";
 
     public static CreativeTabs isaacsItemsTab;
+    public static CreativeTabs activeItemsTab;
+    public static CreativeTabs passiveItemsTab;
+    public static CreativeTabs trinketItemsTab;
 
     @Mod.Instance(modId)
     public static IsaacsItems instance;
@@ -55,7 +59,31 @@ public class IsaacsItems
             @Override
             public Item getTabIconItem()
             {
+                return Items.GOLDEN_APPLE;
+            }
+        };
+        activeItemsTab = new CreativeTabs("active_items")
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return ModItems.activePocketCreeper;
+            }
+        };
+        passiveItemsTab = new CreativeTabs("passive_items")
+        {
+            @Override
+            public Item getTabIconItem()
+            {
                 return ModItems.passiveFlight;
+            }
+        };
+        trinketItemsTab = new CreativeTabs("trinket_items")
+        {
+            @Override
+            public Item getTabIconItem()
+            {
+                return ModItems.trinketLuckyFoot;
             }
         };
 

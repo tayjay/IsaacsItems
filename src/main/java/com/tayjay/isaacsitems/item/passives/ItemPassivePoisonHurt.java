@@ -2,16 +2,14 @@ package com.tayjay.isaacsitems.item.passives;
 
 import com.tayjay.isaacsitems.api.events.IHurtItem;
 import com.tayjay.isaacsitems.item.ItemPassive;
-import net.minecraft.client.Minecraft;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.EntityDamageSource;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 
 /**
@@ -19,9 +17,9 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
  */
 public class ItemPassivePoisonHurt extends ItemPassive implements IHurtItem
 {
-    public ItemPassivePoisonHurt(String name, String description)
+    public ItemPassivePoisonHurt(String name)
     {
-        super(name, description);
+        super(name);
     }
 
 
@@ -52,9 +50,9 @@ public class ItemPassivePoisonHurt extends ItemPassive implements IHurtItem
             EntityLivingBase entityLivingBase = ((EntityLivingBase) event.getSource().getEntity());
             //entityLivingBase.addPotionEffect(new PotionEffect(Potion.getPotionById(19),40,2));
             if(entityLivingBase instanceof EntityZombie || entityLivingBase instanceof EntitySkeleton)
-                entityLivingBase.addPotionEffect(new PotionEffect(Potion.getPotionById(6),1,0));
+                entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.REGENERATION,40,0));
             else
-                entityLivingBase.addPotionEffect(new PotionEffect(Potion.getPotionById(7),1,0));
+                entityLivingBase.addPotionEffect(new PotionEffect(MobEffects.POISON,40,0));
         }
         return false;
     }

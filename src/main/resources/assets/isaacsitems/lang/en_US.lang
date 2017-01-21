@@ -2,22 +2,66 @@
 
 #Items
 item.isaacsitems:redHeartFull.name=Red Heart
+item.isaacsitems:redHeartFull.desc=The heals.
 item.isaacsitems:redHeartHalf.name=Half Red Heart
+item.isaacsitems:redHeartHalf.desc=The heals.
 item.isaacsitems:soulHeart.name=Soul Heart
+item.isaacsitems:soulHeart.desc=More Health.
 item.isaacsitems:penny.name=Penny
 item.isaacsitems:nickle.name=Nickle
 item.isaacsitems:dime.name=Dime
 item.isaacsitems:key.name=Key
 item.isaacsitems:bomb.name=Bomb
+
 item.isaacsitems:activeNightVision.name=Night-Vision Goggles
+item.isaacsitems:activeNightVision.name=See in the dark.
 item.isaacsitems:activePocketCreeper.name=Pocket Creeper
+item.isaacsitems:activePocketCreeper.desc=Little Boom.
+item.isaacsitems:activeDropPotion.name=Potion Dropper
+item.isaacsitems:activeDropPotion.desc=Drops a potion around you
+item.isaacsitems:activePushUp.name=Push Up
+item.isaacsitems:activePushUp.desc=I raise you up.
+item.isaacsitems:activeGiveHeart.name=Heart Giver
+item.isaacsitems:activeGiveHeart.desc=Gives health.
+item.isaacsitems:activePotionMixer.name=Potion Mixer
+item.isaacsitems:activePotionMixer.desc=Fill it up.
+item.isaacsitems:activeChampionSpawner.name=Champion Spawner
+item.isaacsitems:activeChampionSpawner.desc=Bring it on!
+
+
 item.isaacsitems:passiveBlank.name=Blank Passive
+item.isaacsitems:passiveBlank.desc=It does nothing.
 item.isaacsitems:passiveCure.name=The Cure
+item.isaacsitems:passiveCure.desc=For what ails you.
 item.isaacsitems:passiveFastHands.name=Fast Hands
+item.isaacsitems:passiveFastHands.desc=Quick, draw.
 item.isaacsitems:passiveFlight.name=Angel Wings
+item.isaacsitems:passiveFlight.desc=I believe I can fly!
 item.isaacsitems:passiveMobPacifier.name=Mob Pacifier
+item.isaacsitems:passiveMobPacifier.desc=Getting the cold shoulder.
+item.isaacsitems:passivePoisonHurt.name=Poison Blood
+item.isaacsitems:passivePoisonHurt.desc=Right back at ya.
+item.isaacsitems:passiveHungerCure.name=Strong stomach
+item.isaacsitems:passiveHungerCure.desc=Mmm, Zombie flesh.
+item.isaacsitems:passivePoisonBlade.name=Poison Blade
+item.isaacsitems:passivePoisonBlade.desc=Poison swords.
+item.isaacsitems:passiveHealingFists.name=Healing Fists
+item.isaacsitems:passiveHealingFists.desc=Hurts so good
+item.isaacsitems:passiveGills.name=Gills
+item.isaacsitems:passiveGills.desc=And I'm breathing, underwater.
+item.isaacsitems:passiveBombImmune.name=Bomb Immunity
+item.isaacsitems:passiveBombImmune.desc=No more explosive damage.
+
 item.isaacsitems:trinketBlank.name=Blank Trinket
+item.isaacsitems:trinketBlank.desc=Hold it, it won't bite. Or do anything.
 item.isaacsitems:trinketLuckyFoot.name=Lucky Foot
+item.isaacsitems:trinketLuckyFoot.desc=+1024 Luck!!!
 item.isaacsitems:trinketXPGen.name=Broken XP Bottle
+item.isaacsitems:trinketXPGen.desc=Gives levels.
+item.isaacsitems:trinketBattery.name=Little Battery
+item.isaacsitems:trinketBattery.desc=It's gonna charge you.
+item.isaacsitems:trinketBargainingChip.name=Bargaining Chip
+item.isaacsitems:trinketBargainingChip.desc=Get the best deals.
+
 
 #Blocks

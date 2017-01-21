@@ -28,12 +28,10 @@ public class ItemEntityProbe extends ItemBase
         {
             try
             {
-
-
                 Entity e = Minecraft.getMinecraft().objectMouseOver.entityHit;
-                if (e != null && e instanceof EntityLiving && e.getDataManager().get(Buffs.ENTITY_CHAMPION_TYPE) != null)
+                if (e != null && e instanceof EntityLiving)
                 {
-                    playerIn.addChatMessage(new TextComponentString("Champion Type: " + e.getDataManager().get(Buffs.ENTITY_CHAMPION_TYPE)));
+                    playerIn.addChatMessage(new TextComponentString("Champion Type: " + Buffs.getChampionType((EntityLiving) e)));
                     playerIn.addChatMessage(new TextComponentString("Entity Health: " + ((EntityLiving) e).getHealth()+"/"+((EntityLiving) e).getMaxHealth()));
 
                 }

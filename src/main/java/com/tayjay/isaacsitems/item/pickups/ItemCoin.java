@@ -13,7 +13,7 @@ public class ItemCoin extends ItemPickup
     private int value;
     public ItemCoin(String name,int value)
     {
-        super(name,"Money");
+        super(name);
         this.value = value;
     }
 

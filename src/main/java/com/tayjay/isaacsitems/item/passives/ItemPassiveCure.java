@@ -3,6 +3,7 @@ package com.tayjay.isaacsitems.item.passives;
 import com.tayjay.isaacsitems.item.ItemPassive;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
+import net.minecraft.potion.PotionEffect;
 
 /**
  * Created by tayjay on 2017-01-02.
@@ -10,9 +11,9 @@ import net.minecraft.item.ItemStack;
  */
 public class ItemPassiveCure extends ItemPassive
 {
-    public ItemPassiveCure(String name, String description)
+    public ItemPassiveCure(String name)
     {
-        super(name, description);
+        super(name);
     }
 
     @Override
@@ -20,7 +21,12 @@ public class ItemPassiveCure extends ItemPassive
     {
         if(!player.getActivePotionEffects().isEmpty())
         {
-            player.clearActivePotions();
+            //player.clearActivePotions();
+            for (PotionEffect potionEffect : player.getActivePotionEffects())
+            {
+                if(potionEffect.getPotion().isBadEffect())
+                    player.removePotionEffect(potionEffect.getPotion());
+            }
         }
     }
 

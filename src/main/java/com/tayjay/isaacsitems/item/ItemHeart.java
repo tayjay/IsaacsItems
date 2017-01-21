@@ -1,9 +1,7 @@
 package com.tayjay.isaacsitems.item;
 
 import com.tayjay.isaacsitems.api.item.IHeart;
-import com.tayjay.isaacsitems.item.ItemBase;
 import com.tayjay.isaacsitems.util.CapHelper;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.ActionResult;
@@ -18,7 +16,7 @@ public abstract class ItemHeart extends ItemPickup implements IHeart
 {
     public ItemHeart(String name)
     {
-        super(name,"Good for what ails you.");
+        super(name);
         setMaxStackSize(2);
     }
 

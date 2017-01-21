@@ -1,16 +1,17 @@
 package com.tayjay.isaacsitems.item.passives;
 
 import com.tayjay.isaacsitems.item.ItemPassive;
+import net.minecraft.enchantment.EnchantmentFrostWalker;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.MobEffects;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.math.BlockPos;
 
 /**
- * Created by tayjay on 2017-01-05.
+ * Created by tayjay on 2017-01-12.
  */
-public class ItemPassiveHungerCure extends ItemPassive
+public class ItemPassiveColdFeet extends ItemPassive
 {
-    public ItemPassiveHungerCure(String name)
+    public ItemPassiveColdFeet(String name)
     {
         super(name);
     }
@@ -18,10 +19,7 @@ public class ItemPassiveHungerCure extends ItemPassive
     @Override
     public void doTickAction(ItemStack stack, EntityPlayer player)
     {
-        if (player.getActivePotionEffect(MobEffects.HUNGER) != null)
-        {
-            player.removePotionEffect(MobEffects.HUNGER);
-        }
+        EnchantmentFrostWalker.freezeNearby(player, player.worldObj, new BlockPos(player), 0);
     }
 
     @Override

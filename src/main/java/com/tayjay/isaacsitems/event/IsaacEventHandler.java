@@ -1,40 +1,23 @@
 package com.tayjay.isaacsitems.event;
 
-import com.tayjay.isaacsitems.api.capabilities.IPlayerDataProvider;
-import com.tayjay.isaacsitems.api.item.*;
 import com.tayjay.isaacsitems.capability.PlayerDataImpl;
 import com.tayjay.isaacsitems.capability.PlayerItemsImpl;
 import com.tayjay.isaacsitems.init.ModItems;
 import com.tayjay.isaacsitems.lib.Buffs;
 import com.tayjay.isaacsitems.lib.FlightControl;
-import com.tayjay.isaacsitems.network.NetworkHandler;
-import com.tayjay.isaacsitems.network.packets.PacketItemPickup;
-import com.tayjay.isaacsitems.network.packets.PacketRegisterChampionType;
 import com.tayjay.isaacsitems.util.CapHelper;
-import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.item.EntityItem;
-import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.ContainerEnchantment;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
+import net.minecraft.util.CombatRules;
 import net.minecraftforge.event.AttachCapabilitiesEvent;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.event.entity.living.LivingDeathEvent;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
-import net.minecraftforge.event.entity.player.PlayerContainerEvent;
 import net.minecraftforge.event.entity.player.PlayerEvent;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.EventPriority;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent;
@@ -91,7 +74,13 @@ public class IsaacEventHandler
     {
         if(event.player.worldObj.isRemote || event.phase== TickEvent.Phase.END)
         {
-            //System.out.println(((EntityPlayerMP) event.player).isDead);
+            if (event.player.worldObj.getTotalWorldTime() % 15 == 0)
+            {
+                Buffs.confirmPlayerBuffs(event.player);
+                FlightControl.refreshFlight(event.player);
+            }
+
+            Buffs.tickTimedBuffs(event.player);
             return;
         }
         if (event.player.worldObj.getTotalWorldTime() % 15 == 0)
@@ -99,12 +88,21 @@ public class IsaacEventHandler
             Buffs.confirmPlayerBuffs(event.player);
             FlightControl.refreshFlight(event.player);
         }
-        Buffs.tickTimedBuffs();
 
+        Buffs.tickTimedBuffs(event.player);
         CapHelper.getPlayerItemsCap(event.player).tickAllItems((EntityPlayerMP) event.player);
 
 
 
+    }
+
+    @SubscribeEvent
+    public void onTakeDamage(LivingHurtEvent event)
+    {
+        if (!event.getSource().isUnblockable())
+        {
+            event.setAmount(CombatRules.getDamageAfterAbsorb(event.getAmount(), (float) event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.ARMOR).getAttributeValue(), (float) event.getEntityLiving().getEntityAttribute(SharedMonsterAttributes.ARMOR_TOUGHNESS).getAttributeValue()));
+        }
     }
 
     public void playerRespawn(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerRespawnEvent event)
@@ -136,8 +134,8 @@ public class IsaacEventHandler
     {
         if (event.getEntity() instanceof EntityLiving)
         {
-            byte type = (byte) ((byte) event.getEntity().getUniqueID().getMostSignificantBits() % 20 - 15);
-            event.getEntity().getDataManager().register(Buffs.ENTITY_CHAMPION_TYPE, type <= 0 ? 0 : type);
+            byte type = Buffs.getChampionType((EntityLiving) event.getEntity());
+            //event.getEntity().getDataManager().register(Buffs.ENTITY_CHAMPION_TYPE, type <= 0 ? 0 : type);
             if (type>0&&!((EntityLiving) event.getEntity()).getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).hasModifier(Buffs.CHAMPION_HEALTH_BUFF))
             {
                 ((EntityLiving) event.getEntity()).getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).applyModifier(Buffs.CHAMPION_HEALTH_BUFF);
@@ -166,7 +164,7 @@ public class IsaacEventHandler
     @SubscribeEvent
     public void championMobDrops(LivingDropsEvent event)
     {
-        if (event.getEntityLiving() instanceof EntityLiving && event.getEntityLiving().getDataManager().get(Buffs.ENTITY_CHAMPION_TYPE) != null && event.getEntityLiving().getDataManager().get(Buffs.ENTITY_CHAMPION_TYPE).byteValue() > 0)
+        if (event.getEntityLiving() instanceof EntityLiving && Buffs.getChampionType((EntityLiving) event.getEntityLiving()) > 0)
         {
             event.getEntityLiving().dropItem(ModItems.soulHeart, 1);
             //event.getDrops().add(new EntityItem(((EntityLiving) event.getEntityLiving()).worldObj, event.getEntity().posX, event.getEntity().posY, event.getEntity().posZ, new ItemStack(ModItems.soulHeart, 1)));
@@ -174,29 +172,16 @@ public class IsaacEventHandler
     }
 
 
-
-
-    //todo: Maybe add this later. For now this impementation is too overpowered
-    /*@SubscribeEvent
-    public void checkEnchant(TickEvent.PlayerTickEvent event)
+    @SubscribeEvent
+    public void playerLogin(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedInEvent event)
     {
-        if (event.player.worldObj.isRemote)
-        {
-            return;
-        }
-        EntityPlayerMP player = (EntityPlayerMP) event.player;
-        if (player.openContainer instanceof ContainerEnchantment)
-        {
-            int[] levels = ((ContainerEnchantment) player.openContainer).enchantLevels;
-            for(int i = 0;i<levels.length;i++)
-            {
-                if(levels[i]<20)
-                {
-                    ((ContainerEnchantment) player.openContainer).enchantLevels[i] = 20;
-                }
-            }
-            player.openContainer.detectAndSendChanges();
-        }
-    }*/
+
+    }
+
+    @SubscribeEvent
+    public void playerLogout(net.minecraftforge.fml.common.gameevent.PlayerEvent.PlayerLoggedOutEvent event)
+    {
+
+    }
 
 }

@@ -29,7 +29,6 @@ public class NetworkHandler
         INSTANCE.registerMessage(PacketSyncPlayerData.class, PacketSyncPlayerData.class, desc++, Side.CLIENT);
         INSTANCE.registerMessage(PacketSyncActiveItem.class, PacketSyncActiveItem.class, desc++, Side.CLIENT);
         INSTANCE.registerMessage(PacketItemPickup.class, PacketItemPickup.class, desc++, Side.CLIENT);
-        INSTANCE.registerMessage(PacketRegisterChampionType.class, PacketRegisterChampionType.class, desc++, Side.CLIENT);
     }
 
     public static void sendToAll(IMessage msg)

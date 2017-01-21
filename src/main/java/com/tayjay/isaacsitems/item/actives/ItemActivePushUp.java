@@ -1,9 +1,7 @@
 package com.tayjay.isaacsitems.item.actives;
 
 import com.tayjay.isaacsitems.item.ItemActive;
-import net.minecraft.command.EntitySelector;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EntitySelectors;
@@ -15,9 +13,9 @@ import java.util.List;
  */
 public class ItemActivePushUp extends ItemActive
 {
-    public ItemActivePushUp(String name, String description, int charges)
+    public ItemActivePushUp(String name, int charges)
     {
-        super(name, description, charges);
+        super(name, charges);
     }
 
     @Override
@@ -26,7 +24,7 @@ public class ItemActivePushUp extends ItemActive
         List<Entity> entityList=  player.worldObj.getEntitiesInAABBexcluding(player, player.getEntityBoundingBox().expand(6, 2, 6), EntitySelectors.IS_ALIVE);
         for (Entity e : entityList)
         {
-            e.setVelocity(0,3,0);
+            e.setVelocity(0,2,0);
         }
     }
 }
